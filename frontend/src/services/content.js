@@ -19,7 +19,7 @@ export const chatWithProduct = async (chatHistory) => {
         throw new Error('No authentication token found');
     }
 
-    const response = await fetch('http://localhost:8000/content/chat', {
+    const response = await fetch('https://marketingtool-077g.onrender.com/content/chat', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
