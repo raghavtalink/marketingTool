@@ -2,7 +2,7 @@ fastapi==0.104.1
 uvicorn[standard]==0.24.0
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
-motor==3.3.1
+motor
 pydantic==2.4.2
 python-dotenv==1.0.0
 python-multipart==0.0.6
@@ -10,7 +10,6 @@ email-validator==2.1.0.post1
 pymongo
 meta-ai-api
 python-dateutil==2.8.2
-bson
 aiohttp==3.9.1
 typing-extensions==4.8.0
 starlette==0.27.0
