@@ -13,6 +13,8 @@ origins = [
     "http://localhost:3000",  # React frontend URL
     "http://localhost",        # Additional origins if needed
     "http://localhost:8000",   # Backend URL (if accessing directly)
+    "https://marketing-tool-chi.vercel.app",
+    "https://marketing-tool-chi.vercel.app/"
     # Add other origins as necessary
 ]
 
