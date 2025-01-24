@@ -1,0 +1,104 @@
+.toolbar {
+    display: flex;
+    padding: 10px;
+    background: #1e1e1e;
+    border-bottom: 1px solid #333;
+    gap: 20px;
+    align-items: center;
+}
+
+.tools-group {
+    display: flex;
+    gap: 5px;
+    padding: 5px;
+    background: #2b2b2b;
+    border-radius: 4px;
+}
+
+.tool-button {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.tool-button:hover {
+    background: #3b3b3b;
+    color: #fff;
+}
+
+.tool-button.active {
+    background: #0078d4;
+    color: white;
+}
+
+.prompt-group {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+}
+
+.prompt-input {
+    flex: 1;
+    padding: 8px 12px;
+    background: #2b2b2b;
+    border: 1px solid #333;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+}
+
+.action-button {
+    padding: 8px 16px;
+    background: #0078d4;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.action-button:hover {
+    background: #0086f0;
+}
+
+.action-button:disabled {
+    background: #555;
+    cursor: not-allowed;
+}
+
+.actions-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.zoom-level {
+    min-width: 60px;
+    text-align: center;
+    color: #ccc;
+}
+
+.upload-button {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.upload-button input[type="file"] {
+    position: absolute;
+    opacity: 0;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+}

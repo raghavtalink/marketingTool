@@ -1,0 +1,41 @@
+.market-analysis-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .analysis-controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .analysis-controls select,
+  .analysis-controls button {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+  
+  .analysis-controls button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .analysis-controls button:disabled {
+    background-color: #ccc;
+  }
+  
+  .analysis-result {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 4px;
+    white-space: pre-wrap;
+  }
+  
+  .error-message {
+    color: #dc3545;
+    margin: 10px 0;
+  }

@@ -1,0 +1,119 @@
+.text-controls {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: #1e1e1e;
+    border-radius: 4px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.control-group label {
+    color: #ccc;
+    font-size: 12px;
+}
+
+.button-group {
+    display: flex;
+    gap: 4px;
+}
+
+.button-group button {
+    background: #2b2b2b;
+    border: 1px solid #333;
+    color: #ccc;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-group button.active {
+    background: #0078d4;
+    border-color: #0078d4;
+    color: white;
+}
+
+.effects-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.effect-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.effect-item label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 80px;
+}
+
+.effect-item input[type="range"] {
+    flex: 1;
+}
+
+.color-controls {
+    display: flex;
+    gap: 15px;
+}
+
+.color-picker {
+    position: relative;
+}
+
+.color-preview {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    border: 1px solid #333;
+    cursor: pointer;
+}
+
+.react-colorful {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 100;
+    display: none;
+}
+
+.color-picker:hover .react-colorful {
+    display: block;
+}
+
+select, input[type="number"] {
+    background: #2b2b2b;
+    border: 1px solid #333;
+    color: #fff;
+    padding: 8px;
+    border-radius: 4px;
+    width: 100%;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    background: #2b2b2b;
+    border-radius: 4px;
+    height: 6px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #0078d4;
+    border-radius: 50%;
+    cursor: pointer;
+}

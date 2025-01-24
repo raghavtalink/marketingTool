@@ -1,0 +1,33 @@
+/* src/components/BundleAnalysis/BundleCard.css */
+
+.bundle-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .bundle-price {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #059669;
+    margin: 0.5rem 0;
+  }
+  
+  .bundle-products h4 {
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: #4b5563;
+  }
+  
+  .bundle-products ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    color: #4b5563;
+  }
+  
+  .bundle-savings {
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: #16a34a;
+  }

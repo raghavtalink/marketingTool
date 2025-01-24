@@ -1,0 +1,213 @@
+   /* frontend/src/components/Market/MarketAnalysis.css */
+
+   .market-analysis-container {
+    padding: 2rem;
+  }
+
+  .analysis-nav {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 1rem;
+  }
+
+  .nav-link {
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    color: #64748b;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+
+  .nav-link:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+  }
+
+  .nav-link.active {
+    background: #e2e8f0;
+    color: #0f172a;
+    font-weight: 500;
+  }
+
+  .analysis-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .analyze-button {
+    padding: 0.75rem 1.5rem;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s ease;
+  }
+
+  .analyze-button:hover {
+    background: #2563eb;
+  }
+
+  .analyze-button:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+  }
+
+  /* Common Selector Styles */
+  .selector-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 250px;
+  }
+
+  .selector-group label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #4b5563;
+  }
+
+  .selector-input {
+    padding: 0.625rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    color: #1f2937;
+    background-color: white;
+    transition: all 0.2s ease;
+  }
+
+  .selector-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  .selector-input.multi {
+    min-height: 120px;
+  }
+
+  .selector-error {
+    color: #dc2626;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+  }
+
+  .selector-help {
+    color: #6b7280;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+  }
+
+  /* Dynamic Pricing Specific Styles */
+  .params-group {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+  }
+
+  .param-control {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .param-control label {
+    font-size: 0.875rem;
+    color: #4b5563;
+  }
+
+  .param-control input,
+  .param-control select {
+    padding: 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    min-width: 150px;
+  }
+
+  .analysis-results {
+    display: grid;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .competitors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .competitor-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .pricing-analysis {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .recommendation-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .price-range {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #059669;
+    margin: 1rem 0;
+  }
+
+  /* Bundle Analysis Specific Styles */
+  .bundle-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+  }
+
+  /* Trend Analysis Specific Styles */
+  .trend-chart {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin: 1rem 0;
+  }
+
+  .market-trends, .bundle-analysis {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .analysis-controls {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .params-group {
+      flex-direction: column;
+    }
+  }

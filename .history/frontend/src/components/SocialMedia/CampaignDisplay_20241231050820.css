@@ -1,0 +1,75 @@
+/* frontend/src/components/SocialMedia/CampaignDisplay.css */
+.campaign-details-wrapper {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    margin: 2rem auto;
+    box-shadow: inset 6px 6px 16px #bcccdc, inset -6px -6px 16px #ffffff;
+}
+
+.campaign-details-header {
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: inset 4px 4px 10px #bcccdc, inset -4px -4px 10px #ffffff;
+    margin-bottom: 2rem;
+}
+
+.campaign-title {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.campaign-title h2 {
+    font-size: 2rem;
+    background: linear-gradient(135deg, #1e293b 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.product-name {
+    font-size: 1rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.campaign-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.meta-card {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: inset 3px 3px 8px #bcccdc, inset -3px -3px 8px #ffffff;
+}
+
+.meta-card h3 {
+    font-size: 1.1rem;
+    color: #1e293b;
+    margin-bottom: 1rem;
+}
+
+.platform-icons,
+.objective-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.platform-badge,
+.objective-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: inset 2px 2px 5px #bcccdc, inset -2px -2px 5px #

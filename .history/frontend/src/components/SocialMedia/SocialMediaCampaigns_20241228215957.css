@@ -1,0 +1,99 @@
+.campaigns-container {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.campaigns-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.campaign-selector {
+    position: relative;
+    width: 300px;
+}
+
+.campaign-selector select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: white;
+    font-size: 1rem;
+    cursor: pointer;
+    appearance: none;
+    transition: all 0.3s ease;
+}
+
+.campaign-selector select:hover {
+    border-color: #4299e1;
+}
+
+.campaign-content-wrapper {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.campaign-section {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.campaign-section h3 {
+    color: #2d3748;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.campaign-section p {
+    color: #4a5568;
+    line-height: 1.6;
+}
+
+.campaign-meta {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.meta-item {
+    background: #f7fafc;
+    padding: 1rem;
+    border-radius: 8px;
+    min-width: 200px;
+}
+
+.meta-item strong {
+    display: block;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+}
+
+.content-plan {
+    white-space: pre-wrap;
+    background: #f7fafc;
+    padding: 1.5rem;
+    border-radius: 8px;
+.form-group input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
