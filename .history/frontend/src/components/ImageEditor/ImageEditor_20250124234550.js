@@ -198,7 +198,7 @@ const ImageEditor = () => {
         const stage = stageRef.current;
         const textPosition = stage.getPointerPosition();
         
-        // Create unique ID for the textareas
+        // Create unique ID for the textareaw
         const textareaId = `textarea-${Date.now()}`;
         
         const textarea = document.createElement('textarea');

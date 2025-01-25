@@ -34,7 +34,11 @@ const App = () => {
                     </PublicRoute>
                 } />
                 
-                <Route path="/" element={<LandingPage />}>
+                <Route path="/" element={
+                    <PrivateRoute>
+                        <Layout />
+                    </PrivateRoute>
+                }>
                     <Route index element={<Navigate to="/dashboard" replace />} />
                     <Route path="dashboard" element={<Dashboard />} />
                     <Route path="products" element={<ProductList />} />

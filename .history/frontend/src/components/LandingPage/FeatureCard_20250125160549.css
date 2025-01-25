@@ -1,0 +1,101 @@
+.feature-card-combined {
+    position: relative;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    --mouse-x: 50%;
+    --mouse-y: 50%;
+}
+
+.feature-content {
+    position: relative;
+    z-index: 2;
+}
+
+.icon-wrapper {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #3b82f6;
+    transition: transform 0.3s ease;
+}
+
+.feature-card-combined:hover .icon-wrapper {
+    transform: scale(1.1);
+}
+
+.feature-card-combined h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.feature-card-combined p {
+    color: #94a3b8;
+    line-height: 1.6;
+}
+
+/* Spotlight Effect */
+.spotlight-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        800px circle at var(--mouse-x) var(--mouse-y),
+        rgba(59, 130, 246, 0.1),
+        transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.feature-card-combined:hover .spotlight-overlay {
+    opacity: 1;
+}
+
+/* Pixel Effect */
+.pixel-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(59, 130, 246, 0.1) 0%,
+        transparent 100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.feature-card-combined:hover .pixel-overlay {
+    opacity: 1;
+    animation: pixelate 2s infinite alternate;
+}
+
+@keyframes pixelate {
+    0% {
+        background-size: 10px 10px;
+    }
+    100% {
+        background-size: 20px 20px;
+    }
+}
+
+/* Hover State */
+.feature-card-combined:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 0 20px rgba(59, 130, 246, 0.1),
+        0 0 40px rgba(59, 130, 246, 0.05);
+    border-color: rgba(59, 130, 246, 0.3);
+}
