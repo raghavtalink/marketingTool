@@ -1,6 +1,3 @@
-Here's a comprehensive README.md file for your Marketing Tool project:
-
-```markdown
 # Marketing Tool
 
 A full-stack AI-powered marketing tool that helps generate product content, manage social media campaigns, and provide chatbot interactions for e-commerce products.
