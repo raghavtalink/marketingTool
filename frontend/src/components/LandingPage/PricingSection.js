@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FiCheck } from 'react-icons/fi';
+import Squares from './Squares';
 import './PricingSection.css';
 
 const PricingSection = () => {
@@ -55,24 +56,34 @@ const PricingSection = () => {
 
     return (
         <section className="pricing-section">
+            <div className="squares-background">
+                <Squares 
+                    speed={0.3} 
+                    squareSize={40}
+                    direction='diagonal'
+                    borderColor='rgba(59, 130, 246, 0.1)'
+                    hoverFillColor='rgba(139, 92, 246, 0.1)'
+                />
+            </div>
+            
             <div className="pricing-container">
                 <div className="pricing-header">
                     <h2>Simple, Transparent Pricing</h2>
                     <p>Choose the perfect plan for your business</p>
                     
                     <div className="toggle-wrapper">
-                        <span className={!isYearly ? 'active' : ''}>Monthly</span>
-                        <div className="toggle-container">
-                            <button 
-                                className="toggle-switch"
-                                onClick={() => setIsYearly(!isYearly)}
-                            >
-                                <div className={`toggle-circle ${isYearly ? 'yearly' : ''}`} />
-                            </button>
-                        </div>
-                        <span className={isYearly ? 'active' : ''}>
+                        <span 
+                            className={!isYearly ? 'active' : ''} 
+                            onClick={() => setIsYearly(false)}
+                        >
+                            Monthly
+                        </span>
+                        <span 
+                            className={isYearly ? 'active' : ''} 
+                            onClick={() => setIsYearly(true)}
+                        >
                             Yearly
-                            <div className="save-tag">Save 25%</div>
+                            {isYearly && <div className="save-tag">Save 25%</div>}
                         </span>
                     </div>
                 </div>
@@ -107,6 +118,21 @@ const PricingSection = () => {
                                         </div>
                                     </div>
                                 ))}
+                            </div>
+
+                            <div className="pricing-card-cta">
+                                <button 
+                                    className="cta-button"
+                                    style={{ 
+                                        background: tier.name === "Freeloader" 
+                                            ? 'var(--freeloader-gradient)' 
+                                            : tier.name === "Hustler" 
+                                                ? 'var(--hustler-gradient)' 
+                                                : 'var(--trailblazer-gradient)'
+                                    }}
+                                >
+                                    {tier.name === "Freeloader" ? "Get Started Free" : "Choose Plan"}
+                                </button>
                             </div>
                         </div>
                     ))}

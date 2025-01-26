@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { FiBox, FiCpu, FiClock, FiPieChart, FiDollarSign, FiTrendingUp, FiShield, FiUsers } from 'react-icons/fi';
 import gsap from 'gsap';
+import Squares from './Squares';
 import './WhyChooseSection.css';
 
 const reasons = [
@@ -106,7 +107,15 @@ const WhyChooseSection = () => {
 
     return (
         <section ref={sectionRef} className="why-choose-section">
-            <div className="animated-bg"></div>
+            <div className="squares-background">
+                <Squares 
+                    speed={0.3} 
+                    squareSize={40}
+                    direction='diagonal'
+                    borderColor='rgba(59, 130, 246, 0.1)'
+                    hoverFillColor='rgba(139, 92, 246, 0.1)'
+                />
+            </div>
             <motion.div style={{ y, opacity }} className="content-wrapper">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
