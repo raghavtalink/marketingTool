@@ -171,26 +171,9 @@
     .nav-links {
         display: none;
         position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: rgba(15, 23, 42, 0.95);
-        padding: 1rem;
-        flex-direction: column;
-        gap: 1rem;
     }
-
-    .nav-links.active {
-        display: flex;
-    }
-
-    .auth-buttons {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .login-btn, .signup-btn {
-        width: 100%;
-        text-align: center;
+    
+    .nav-content {
+        justify-content: center;
     }
 }

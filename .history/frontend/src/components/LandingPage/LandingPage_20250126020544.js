@@ -104,9 +104,6 @@ const LandingPage = () => {
                 {/* Why Choose Section Third */}
                 <WhyChooseSection />
 
-                {/* How It Works section */}
-                <HowItWorks />
-
                 {/* Pricing Section Fourth */}
                 <PricingSection />
 

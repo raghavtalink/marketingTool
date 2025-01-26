@@ -10,7 +10,7 @@ import WhyChooseSection from './WhyChooseSection';
 import PricingSection from './PricingSection';
 import Ballpit from './Ballpit';
 import Navbar from '../Common/Navbar';
-import HowItWorks from './HowItWorks';
+imp
 
 
 const LandingPage = () => {
@@ -87,8 +87,6 @@ const LandingPage = () => {
                     </div>
                 </section>
 
-                
-
                 {/* Features Section Second */}
                 <div className="features-container">
                     {features.map((feature, index) => (
@@ -103,9 +101,6 @@ const LandingPage = () => {
 
                 {/* Why Choose Section Third */}
                 <WhyChooseSection />
-
-                {/* How It Works section */}
-                <HowItWorks />
 
                 {/* Pricing Section Fourth */}
                 <PricingSection />

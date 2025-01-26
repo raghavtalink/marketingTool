@@ -87,8 +87,6 @@ const LandingPage = () => {
                     </div>
                 </section>
 
-                
-
                 {/* Features Section Second */}
                 <div className="features-container">
                     {features.map((feature, index) => (
@@ -103,9 +101,6 @@ const LandingPage = () => {
 
                 {/* Why Choose Section Third */}
                 <WhyChooseSection />
-
-                {/* How It Works section */}
-                <HowItWorks />
 
                 {/* Pricing Section Fourth */}
                 <PricingSection />

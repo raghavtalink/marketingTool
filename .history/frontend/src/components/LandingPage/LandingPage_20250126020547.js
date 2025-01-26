@@ -87,7 +87,7 @@ const LandingPage = () => {
                     </div>
                 </section>
 
-                
+                {/* How It Works section */}
 
                 {/* Features Section Second */}
                 <div className="features-container">
@@ -103,9 +103,6 @@ const LandingPage = () => {
 
                 {/* Why Choose Section Third */}
                 <WhyChooseSection />
-
-                {/* How It Works section */}
-                <HowItWorks />
 
                 {/* Pricing Section Fourth */}
                 <PricingSection />
