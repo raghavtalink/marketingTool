@@ -23,7 +23,7 @@ origins = [
     "http://192.168.*.*",
     "http://172.16.*.*",
     "http://10.*.*.*",
-    "http://103.40.61.70:30080",  # Frontend external access
+     "http://103.40.61.70:30080",  # Frontend external access
     "http://103.40.61.70:30081",  # Backend external access
 ]
 

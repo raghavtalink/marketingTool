@@ -6,8 +6,4 @@ motor
 pydantic
 python-dotenv
 meta-ai-api
-pydantic[email]
-httpx
-pillow
-rembg
-onnxruntime
+pydantic

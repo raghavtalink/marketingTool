@@ -9,5 +9,4 @@ meta-ai-api
 pydantic[email]
 httpx
 pillow
-rembg
-onnxruntime
+r
