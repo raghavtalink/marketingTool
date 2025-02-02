@@ -22,7 +22,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Convert repository name to lowercase
+     - name: Convert repository name to lowercase
       run: |
         echo "REPO_LOWER=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
 

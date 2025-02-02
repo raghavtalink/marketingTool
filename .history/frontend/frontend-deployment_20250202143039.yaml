@@ -23,7 +23,7 @@ spec:
         - containerPort: 80
         env:
         - name: REACT_APP_API_URL
-          value: "http://103.40.61.70:30081"
+          value: "http://103.40.61.70:30081"  # Internal cluster DNS
 
 ---
 apiVersion: v1

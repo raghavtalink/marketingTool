@@ -8,8 +8,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  FRONTEND_IMAGE: ${{ github.repository_owner }}/marketingtool-frontend
-  BACKEND_IMAGE: ${{ github.repository_owner }}/marketingtool-backend
+  FRONTEND_IMAGE: ${{ github.repository_owner }}/marketingtool-frontend  # lowercase
+  BACKEND_IMAGE: ${{ github.repository_owner }}/marketingtool-backend    # lowercase
 
 jobs:
   build-and-deploy:
@@ -61,29 +61,12 @@ jobs:
         chmod 600 ~/.kube/config
 
     - name: Deploy to Kubernetes
+      env:
+        RDP_HOST: ${{ secrets.RDP_HOST }}
+        RDP_USERNAME: ${{ secrets.RDP_USERNAME }}
+        RDP_PASSWORD: ${{ secrets.RDP_PASSWORD }}
       run: |
         kubectl set image deployment/frontend frontend=${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE }}:latest
         kubectl set image deployment/backend backend=${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE }}:latest
         kubectl rollout restart deployment frontend
-        kubectl rollout restart deployment backend
-
-    # Added cleanup steps
-    - name: Clean up old images from GitHub Container Registry
-      if: success()
-      run: |
-        # Keep only the latest 3 versions of each image
-        for image in "${{ env.FRONTEND_IMAGE }}" "${{ env.BACKEND_IMAGE }}"; do
-          tags=$(curl -s -H "Authorization: Bearer ${{ secrets.DEPLOY_TOKEN }}" \
-            "https://api.github.com/user/packages/container/${image}/versions" | \
-            jq -r '.[].metadata.container.tags[0]' | sort -r | tail -n +4)
-          
-          for tag in $tags; do
-            curl -X DELETE -H "Authorization: Bearer ${{ secrets.DEPLOY_TOKEN }}" \
-              "https://api.github.com/user/packages/container/${image}/versions/${tag}"
-          done
-        done
-
-    - name: Clean up old images from Kubernetes nodes
-      run: |
-        # Remove unused images from nodes
-        kubectl get nodes -o=name | xargs -I {} kubectl debug {} -it --image=alpine -- crictl rmi --prune
+        kubectl rollout restart deployment backend 

@@ -1,0 +1,12 @@
+jobs:
+  deploy:
+    steps:
+    - name: Setup Frontend Env
+      run: |
+        echo "REACT_APP_API_URL=http://${{ secrets.SERVER_IP }}:8000" > frontend/.env.production
+        
+    - name: Setup Backend Env
+      run: |
+        echo "MONGODB_URL=mongodb://mongo:27017/marketing_tool" > backend/.env.production
+        echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> backend/.env.production
+        echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> backend/.env.production
