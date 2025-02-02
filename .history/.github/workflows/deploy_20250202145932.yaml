@@ -49,12 +49,16 @@ jobs:
         push: true
         tags: ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE }}:latest
 
+    - name: Install kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'latest'
+
     - name: Setup SSH tunnel
       run: |
         mkdir -p ~/.ssh
         echo "${{ secrets.RDP_SSH_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H ${{ secrets.RDP_HOST }} >> ~/.ssh/known_hosts
         ssh -o StrictHostKeyChecking=no -L 6443:127.0.0.1:6443 ${{ secrets.RDP_USERNAME }}@${{ secrets.RDP_HOST }} -N &
         sleep 5
 
