@@ -1,3 +1,5 @@
+#Schemas
+
 from pydantic import BaseModel, EmailStr, Field, validator
 from typing import Optional, List
 from bson import ObjectId
@@ -233,3 +235,27 @@ class HistoryItem(BaseModel):
         json_encoders = {
             datetime: lambda v: v.isoformat()
         }  
+
+class ImageGenerationPrompt(BaseModel):
+    prompt: str
+    steps: Optional[int] = 4
+    
+class BackgroundRemovalRequest(BaseModel):
+    product_id: str
+
+class ImageEditorProject(BaseModel):
+    id: Optional[str] = Field(alias="_id")
+    user_id: str
+    product_id: str
+    background_image: Optional[str]  # Base64 encoded
+    product_image: Optional[str]     # Base64 encoded
+    edited_image: Optional[str]      # Base64 encoded
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+    class Config:
+        orm_mode = True
+        allow_population_by_field_name = True
+        json_encoders = {
+            ObjectId: str
+        }
