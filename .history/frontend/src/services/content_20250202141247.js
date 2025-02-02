@@ -19,7 +19,7 @@ export const chatWithProduct = async (chatHistory) => {
         throw new Error('No authentication token found');
     }
 
-    const response = await fetch('https://0c0bc2l9-8000.inc1.devtunnels.ms/content/chat', {
+    const response = await fetch('http://103.40.61.70:30081/content/chat', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

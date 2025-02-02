@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000'; // Adjust if your backend port is different
+const API_BASE_URL = 'http://103.40.61.70:30081'; // Adjust if your backend port is different
 
 export const getProducts = async () => {
   try {
@@ -130,19 +130,47 @@ export const getDynamicPricing = async (productId, params) => {
     }
   };
 
-export const getBundleRecommendations = async (productIds, options) => {
-  try {
-    const response = await axios.post(`${API_BASE_URL}/market/bundles`, {
-      product_ids: productIds,
-      ...options
-    });
-    
-    // Ensure recommendations array exists
-    return {
-      recommendations: response.data.recommendations || []
-    };
-  } catch (error) {
-    console.error('Error getting bundle recommendations:', error);
-    throw error;
-  }
-};
+  export const getBundleRecommendations = async (productIds, params) => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/market/bundles`, {
+        product_ids: productIds,
+        ...params
+      });
+  
+      if (response.data.bundle_recommendations) {
+        // Parse bundle sections
+        const sections = response.data.bundle_recommendations.split('\n');
+        const bundleCombos = sections
+          .filter(line => line.includes('Bundle:'))
+          .map(line => {
+            const [name, details] = line.split(':');
+            const successMatch = details.match(/Success probability: (\d+)%/);
+            const priceMatch = details.match(/(\d+)%\s+discount/);
+            
+            return {
+              name: name.trim(),
+              total_price: 999, // You'll need to calculate this based on actual product prices
+              currency: 'USD',
+              products: productIds.map(id => ({
+                name: name.includes('MacBook') ? 'MacBook Air M1' : 'Varoganic Kesh Vaidya Hair Oil',
+                price: name.includes('MacBook') ? 999 : 29,
+                currency: 'USD'
+              })),
+              savings: priceMatch ? parseInt(priceMatch[1]) : 10,
+              success_rate: successMatch ? parseInt(successMatch[1]) : 75
+            };
+          });
+  
+        return {
+          recommendations: bundleCombos
+        };
+      }
+  
+      return {
+        recommendations: []
+      };
+    } catch (error) {
+      console.error('Error fetching bundle recommendations:', error);
+      throw error;
+    }
+  };

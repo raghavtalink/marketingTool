@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000'; // Adjust if your backend port is different
+const API_BASE_URL = 'http://103.40.61.70:30081'; // Adjust if your backend port is different
 
 export const getProducts = async () => {
   try {
