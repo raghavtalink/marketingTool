@@ -71,13 +71,23 @@ const contentResolver = {
 
   Mutation: {
     generateTitle: async (_, { input }, { user }) => {
-        if (!user) throw new AuthenticationError('Not authenticated');
-        
-        const product = await Product.findOne({ _id: input.productId, userId: user.id });
-        if (!product) throw new UserInputError('Product not found');
+        if (!user) {
+          throw new AuthenticationError('Not authenticated');
+        }
   
-        const webData = await googleSearch(`${product.name} ${product.category} title examples marketplace`);
-        
+        const product = await Product.findOne({ 
+          _id: input.productId, 
+          userId: user.id 
+        });
+  
+        if (!product) {
+          throw new UserInputError('Product not found');
+        }
+  
+        const webData = await googleSearch(
+          `${product.name} ${product.category} title examples marketplace`
+        );
+  
         const aiPrompt = `
           You are an expert in SEO and product titles. Create a compelling, SEO-optimized title for:
           
@@ -87,13 +97,13 @@ const contentResolver = {
           Price: ${product.price || 'N/A'} ${product.currency || 'USD'}
   
           Format your response in HTML using these guidelines:
-          - Use <h3> for section headings
-          - Use <ul> or <ol> for lists
-          - Use <p> for paragraphs
-          - Use <strong> for emphasis
-          - Use <br> for line breaks
-          - Use <div class="highlight"> for important information
-          Keep the HTML simple and semantic.
+         - Use <h3> for section headings
+         - Use <ul> or <ol> for lists
+         - Use <p> for paragraphs
+         - Use <strong> for emphasis
+         - Use <br> for line breaks
+         - Use <div class="highlight"> for important information
+         Keep the HTML simple and semantic.
           
           Requirements:
           - Keep under 70 characters
@@ -105,7 +115,7 @@ const contentResolver = {
         `;
   
         const response = await callLlama3(aiPrompt, webData);
-        
+  
         return await AIResponse.create({
           content: response,
           contentType: 'title',
@@ -116,13 +126,23 @@ const contentResolver = {
       },
   
       generateSEOTags: async (_, { input }, { user }) => {
-        if (!user) throw new AuthenticationError('Not authenticated');
-        
-        const product = await Product.findOne({ _id: input.productId, userId: user.id });
-        if (!product) throw new UserInputError('Product not found');
+        if (!user) {
+          throw new AuthenticationError('Not authenticated');
+        }
   
-        const webData = await googleSearch(`${product.name} ${product.category} SEO keywords meta tags`);
-        
+        const product = await Product.findOne({ 
+          _id: input.productId, 
+          userId: user.id 
+        });
+  
+        if (!product) {
+          throw new UserInputError('Product not found');
+        }
+  
+        const webData = await googleSearch(
+          `${product.name} ${product.category} SEO keywords meta tags`
+        );
+  
         const aiPrompt = `
           Generate SEO metadata for this product:
           
@@ -131,13 +151,13 @@ const contentResolver = {
           Description: ${product.description || 'N/A'}
   
           Format your response in HTML using these guidelines:
-          - Use <h3> for section headings
-          - Use <ul> or <ol> for lists
-          - Use <p> for paragraphs
-          - Use <strong> for emphasis
-          - Use <br> for line breaks
-          - Use <div class="highlight"> for important information
-          Keep the HTML simple and semantic.
+         - Use <h3> for section headings
+         - Use <ul> or <ol> for lists
+         - Use <p> for paragraphs
+         - Use <strong> for emphasis
+         - Use <br> for line breaks
+         - Use <div class="highlight"> for important information
+         Keep the HTML simple and semantic.
           
           Provide:
           1. Meta description (160 characters max)
@@ -149,7 +169,7 @@ const contentResolver = {
         `;
   
         const response = await callLlama3(aiPrompt, webData);
-        
+  
         return await AIResponse.create({
           content: response,
           contentType: 'seo_tags',
@@ -160,15 +180,23 @@ const contentResolver = {
       },
   
       generateFullListing: async (_, { input }, { user }) => {
-        if (!user) throw new AuthenticationError('Not authenticated');
-        
-        const product = await Product.findOne({ _id: input.productId, userId: user.id });
-        if (!product) throw new UserInputError('Product not found');
+        if (!user) {
+          throw new AuthenticationError('Not authenticated');
+        }
+  
+        const product = await Product.findOne({ 
+          _id: input.productId, 
+          userId: user.id 
+        });
+  
+        if (!product) {
+          throw new UserInputError('Product not found');
+        }
   
         const webData = await googleSearch(
           `${product.name} ${new Date().getFullYear()} complete specifications features reviews`
         );
-        
+  
         const aiPrompt = `
           Create a complete product listing with HTML formatting:
           
@@ -178,13 +206,13 @@ const contentResolver = {
           Price: ${product.price || 'N/A'} ${product.currency || 'USD'}
           
           Format your response in HTML using these guidelines:
-          - Use <h3> for section headings
-          - Use <ul> or <ol> for lists
-          - Use <p> for paragraphs
-          - Use <strong> for emphasis
-          - Use <br> for line breaks
-          - Use <div class="highlight"> for important information
-          Keep the HTML simple and semantic.
+         - Use <h3> for section headings
+         - Use <ul> or <ol> for lists
+         - Use <p> for paragraphs
+         - Use <strong> for emphasis
+         - Use <br> for line breaks
+         - Use <div class="highlight"> for important information
+         Keep the HTML simple and semantic.
           
           Include:
           1. Product Overview
@@ -198,7 +226,7 @@ const contentResolver = {
         `;
   
         const response = await callLlama3(aiPrompt, webData);
-        
+  
         return await AIResponse.create({
           content: response,
           contentType: 'full_listing',
@@ -206,19 +234,6 @@ const contentResolver = {
           generatedAt: new Date(),
           webDataUsed: !!webData
         });
-      },
-  
-      deleteGeneratedContent: async (_, { contentId }, { user }) => {
-        if (!user) throw new AuthenticationError('Not authenticated');
-  
-        const content = await AIResponse.findById(contentId);
-        if (!content) throw new UserInputError('Content not found');
-  
-        const product = await Product.findOne({ _id: content.productId, userId: user.id });
-        if (!product) throw new AuthenticationError('Not authorized to delete this content');
-  
-        await AIResponse.findByIdAndDelete(contentId);
-        return true;
       },
 
     chat: async (_, { input }, { user }) => {

@@ -23,6 +23,7 @@ const resolvers = {
     register: userResolver.Mutation.register,
     login: userResolver.Mutation.login,
     createProduct: productResolver.Mutation.createProduct,
+    generateContent: contentResolver.Mutation.generateContent,
     chat: contentResolver.Mutation.chat,
     deleteGeneratedContent: contentResolver.Mutation.deleteGeneratedContent,
     analyzeTrends: marketAnalysisResolver.Mutation.analyzeTrends,
@@ -37,8 +38,6 @@ const resolvers = {
     deleteCampaign: socialMediaResolver.Mutation.deleteCampaign,
     generateCampaignContent: socialMediaResolver.Mutation.generateCampaignContent,
     generateTitle: contentResolver.Mutation.generateTitle,
-    generateSEOTags: contentResolver.Mutation.generateSEOTags,
-    generateFullListing: contentResolver.Mutation.generateFullListing,
   }
 };
 
