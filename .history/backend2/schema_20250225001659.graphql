@@ -11,6 +11,7 @@ type Mutation {
   updateProduct(id: ID!, input: ProductCreateInput!): Product!
   deleteProduct(id: ID!): Boolean!
   deleteGeneratedContent(contentId: ID!): Boolean!
+  chat(input: ChatInput!): ChatResponse!
   listCampaigns(productId: String!): [SocialMediaCampaign!]!
   analyzeTrends(input: MarketTrendAnalysisInput!): MarketAnalysis!
   suggestPricing(input: DynamicPricingInput!): MarketAnalysis!
@@ -22,10 +23,11 @@ type Mutation {
   updateCampaign(id: ID!, input: UpdateCampaignInput!): SocialMediaCampaign!
   deleteCampaign(id: ID!): Boolean!
   generateCampaignContent(campaignId: ID!, platform: SocialMediaPlatform!): ContentPlan!
-  generateTitle(input: GenerateContentInput!): AIResponse!
-  generateSEOTags(input: GenerateContentInput!): AIResponse!
-  generateFullListing(input: GenerateContentInput!): AIResponse!
+  generateTitle(input: ContentInput!): AIResponse!
+  generateSEOTags(input: ContentInput!): AIResponse!
+  generateFullListing(input: ContentInput!): AIResponse!
   chat(input: ChatInput!): ChatResponse!
+
 }
 
 type User {

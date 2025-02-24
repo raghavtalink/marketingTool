@@ -26,6 +26,7 @@ type Mutation {
   generateSEOTags(input: GenerateContentInput!): AIResponse!
   generateFullListing(input: GenerateContentInput!): AIResponse!
   chat(input: ChatInput!): ChatResponse!
+
 }
 
 type User {
