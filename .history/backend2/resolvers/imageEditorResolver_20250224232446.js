@@ -6,8 +6,8 @@ const fs = require('fs').promises;
 const sharp = require('sharp');
 const axios = require('axios');
 
-const CLOUDFLARE_ACCOUNT_ID_IMAGE_EDITOR = process.env.CLOUDFLARE_ACCOUNT_ID_IMAGE_EDITOR;
-const CLOUDFLARE_API_TOKEN_IMAGE_EDITOR = process.env.CLOUDFLARE_API_TOKEN_IMAGE_EDITOR;
+const CLOUDFLARE_ACCOUNT_ID_IMAGE_EDITOR = process.env.CLOUDFLARE_ACCOUNT_ID;
+const CLOUDFLARE_API_TOKEN = process.env.CLOUDFLARE_API_TOKEN;
 
 const processUpload = async (file) => {
   const { createReadStream } = await file;
