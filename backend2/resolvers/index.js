@@ -4,10 +4,12 @@ const contentResolver = require('./contentResolver');
 const marketAnalysisResolver = require('./marketAnalysisResolver');
 const imageEditorResolver = require('./imageEditorResolver');
 const socialMediaResolver = require('./socialMediaResolver');
-const { GraphQLDateTime } = require('graphql-iso-date');
+//const { GraphQLDateTime } = require('graphql-iso-date');
+const { DateTimeResolver } = require('graphql-scalars');
+
 
 const resolvers = {
-  DateTime: GraphQLDateTime,
+  DateTime: DateTimeResolver,
   Query: {
     me: userResolver.Query.me,
     products: productResolver.Query.products,
