@@ -5,25 +5,63 @@ const path = require('path');
 const fs = require('fs').promises;
 const sharp = require('sharp');
 const axios = require('axios');
+const sizeOf = require('image-size');
+
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB limit (adjust as needed)
+const COMPRESSION_QUALITY = 80; // Default quality for compression
 
 const CLOUDFLARE_ACCOUNT_ID_IMAGE_EDITOR = process.env.CLOUDFLARE_ACCOUNT_ID_IMAGE_EDITOR;
 const CLOUDFLARE_API_TOKEN_IMAGE_EDITOR = process.env.CLOUDFLARE_API_TOKEN_IMAGE_EDITOR;
 
-const processUpload = async (file) => {
-  const { createReadStream } = await file;
-  const stream = createReadStream();
-  const chunks = [];
+const processUpload = async (imageData) => {
+  try {
+    // Extract base64 data and format
+    const matches = imageData.match(/^data:image\/([a-zA-Z+]+);base64,(.+)$/);
+    if (!matches) throw new Error('Invalid image format');
 
-  for await (const chunk of stream) {
-    chunks.push(chunk);
+    const [, format, base64Data] = matches;
+    const imageBuffer = Buffer.from(base64Data, 'base64');
+    
+    // Get image details
+    const { width, height, type } = sizeOf(imageBuffer);
+    console.log(`[processUpload] Original image: ${width}x${height} ${type} (${imageBuffer.length} bytes)`);
+
+    // If image is too large, compress it
+    if (imageBuffer.length > MAX_FILE_SIZE) {
+      console.log('[processUpload] Image too large, compressing...');
+      
+      // Calculate compression ratio
+      const compressionRatio = MAX_FILE_SIZE / imageBuffer.length;
+      const quality = Math.floor(COMPRESSION_QUALITY * compressionRatio);
+      
+      // Resize if dimensions are too large
+      const maxDimension = 2000; // Adjust based on your needs
+      const scale = Math.min(1, maxDimension / Math.max(width, height));
+      
+      const processedBuffer = await sharp(imageBuffer)
+        .resize(Math.round(width * scale), Math.round(height * scale), {
+          fit: 'inside',
+          withoutEnlargement: true
+        })
+        .toFormat(format, { quality })
+        .toBuffer();
+
+      console.log(`[processUpload] Compressed image: ${processedBuffer.length} bytes`);
+      return processedBuffer;
+    }
+
+    return imageBuffer;
+  } catch (error) {
+    console.error('[processUpload] Error:', error);
+    throw error;
   }
-
-  return Buffer.concat(chunks);
 };
 
 const imageEditorResolver = {
   Query: {
     imageEditorProjects: async (_, __, { user }) => {
+      console.log(`[Query:imageEditorProjects] Fetching projects for user: ${user.id}`);
+
       if (!user) {
         throw new AuthenticationError('Not authenticated');
       }
@@ -52,58 +90,72 @@ const imageEditorResolver = {
 
   Mutation: {
     removeBackground: async (_, { input }, { user }) => {
-      if (!user) {
-        throw new AuthenticationError('Not authenticated');
-      }
-
+      let imageBuffer; // Declare outside try block to access in catch
+      
       try {
+        console.log('Starting background removal process...');
+        
         const product = await Product.findOne({
           _id: input.productId,
           userId: user.id
         });
-
+        
         if (!product) {
-          throw new UserInputError('Product not found');
+          throw new Error('Product not found');
         }
 
-        // Process the uploaded file
-        const imageBuffer = await processUpload(input.image);
-
-        // Configure background removal
-        const config = {
-          debug: false,
-          model: 'medium',
-          output: {
-            format: 'image/png',
-            quality: 0.8,
-            type: 'foreground'
-          }
-        };
-
-        // Remove background
-        const processedImageBlob = await removeBackground(imageBuffer, config);
+        console.log('Processing upload...');
+        imageBuffer = await processUpload(input.image);
+        console.log('Image buffer size:', (imageBuffer.length / 1024 / 1024).toFixed(2), 'MB');
         
-        // Convert Blob to Buffer
+        // Create a Blob from the buffer with explicit type
+        const imageBlob = new Blob([imageBuffer], { type: 'image/png' });
+        console.log('Created Blob:', {
+          size: imageBlob.size,
+          type: imageBlob.type
+        });
+
+        console.log('Starting background removal...');
+        const startTime = Date.now();
+        
+        // Pass the Blob directly to removeBackground
+        const processedImageBlob = await removeBackground(imageBlob);
+        console.log('Background removal completed in', ((Date.now() - startTime) / 1000).toFixed(2), 'seconds');
+        
+        console.log('Converting blob to buffer...');
         const arrayBuffer = await processedImageBlob.arrayBuffer();
         const processedBuffer = Buffer.from(arrayBuffer);
+        console.log('Processed image size:', (processedBuffer.length / 1024 / 1024).toFixed(2), 'MB');
 
-        // Convert to base64
-        const base64Image = processedBuffer.toString('base64');
-
-        return {
+        const result = {
           success: true,
-          image: `data:image/png;base64,${base64Image}`
+          image: `data:image/png;base64,${processedBuffer.toString('base64')}`
         };
+        console.log('Process completed successfully');
+        
+        return result;
+
       } catch (error) {
-        console.error('Background removal error:', error);
+        console.error('Background removal error:', {
+          message: error.message,
+          stack: error.stack,
+          name: error.name,
+          // Safe error logging
+          inputType: imageBuffer ? typeof imageBuffer : 'undefined',
+          hasBuffer: !!imageBuffer,
+          bufferLength: imageBuffer?.length
+        });
         return {
           success: false,
-          error: error.message
+          error: error.message,
+          image: null
         };
       }
     },
 
     adjustImage: async (_, { input }, { user }) => {
+      console.log(`[Mutation:adjustImage] Starting for product: ${input.productId}`);
+
       if (!user) {
         throw new AuthenticationError('Not authenticated');
       }
@@ -113,6 +165,8 @@ const imageEditorResolver = {
           _id: input.productId,
           userId: user.id
         });
+        console.log(`[adjustImage] Product found: ${product ? 'yes' : 'no'}`);
+
 
         if (!product) {
           throw new UserInputError('Product not found');
@@ -200,11 +254,15 @@ const imageEditorResolver = {
     },
 
     generateImage: async (_, { input }, { user }) => {
+      console.log(`[Mutation:generateImage] Starting with prompt: ${input.prompt.substring(0, 50)}...`);
+
       if (!user) {
         throw new AuthenticationError('Not authenticated');
       }
 
       try {
+        console.log('[generateImage] Calling Cloudflare AI API');
+
         const url = `https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID_IMAGE_EDITOR}/ai/run/@cf/black-forest-labs/flux-1-schnell`;
         
         const headers = {
@@ -226,6 +284,8 @@ const imageEditorResolver = {
 
         let base64Str;
         const result = response.data;
+        console.log('[generateImage] Processing API response');
+
 
         // Handle the nested dictionary structure
         if (result.result) {
@@ -242,6 +302,8 @@ const imageEditorResolver = {
 
         // Clean up the base64 string
         base64Str = base64Str.replace(/['"]/g, '').trim();
+        console.log('[generateImage] Operation completed successfully');
+
 
         return {
           success: true,

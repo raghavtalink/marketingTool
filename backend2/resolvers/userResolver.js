@@ -29,6 +29,8 @@ const userResolver = {
         password, // Store password directly to match Python backend
       });
 
+      console.log('New User created:', user);
+
       return user;
     },
 

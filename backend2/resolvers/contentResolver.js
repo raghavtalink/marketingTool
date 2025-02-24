@@ -1,35 +1,36 @@
 const { AuthenticationError, UserInputError } = require('apollo-server-express');
 const { Product, AIResponse } = require('../models');
 const axios = require('axios');
+const googleSearch = require('../utils/googleSearch');
 
 const CLOUDFLARE_API_URL = process.env.CLOUDFLARE_API_URL;
 const CLOUDFLARE_AUTH_TOKEN = process.env.CLOUDFLARE_AUTH_TOKEN;
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 const CX = process.env.GOOGLE_CX;
 
-const googleSearch = async (query) => {
-  try {
-    const url = `https://www.googleapis.com/customsearch/v1?q=${query}&key=${GOOGLE_API_KEY}&cx=${CX}`;
-    const response = await axios.get(url);
+// const googleSearch = async (query) => {
+//   try {
+//     const url = `https://www.googleapis.com/customsearch/v1?q=${query}&key=${GOOGLE_API_KEY}&cx=${CX}`;
+//     const response = await axios.get(url);
 
-    if (response.status !== 200) {
-      console.error('Google API Error:', response.data);
-      return '';
-    }
+//     if (response.status !== 200) {
+//       console.error('Google API Error:', response.data);
+//       return '';
+//     }
 
-    const results = response.data.items?.slice(0, 3).map(item => item.snippet) || [];
-    const combinedText = results.join(' ');
+//     const results = response.data.items?.slice(0, 3).map(item => item.snippet) || [];
+//     const combinedText = results.join(' ');
     
-    // Extract date using regex
-    const dateMatch = combinedText.match(/\b(\d{1,2}\s\w+\s\d{4}|\w+\s\d{1,2},\s\d{4}|\d{4}-\d{2}-\d{2})\b/);
-    const dateInfo = dateMatch ? dateMatch[0] : 'Date not found.';
+//     // Extract date using regex
+//     const dateMatch = combinedText.match(/\b(\d{1,2}\s\w+\s\d{4}|\w+\s\d{1,2},\s\d{4}|\d{4}-\d{2}-\d{2})\b/);
+//     const dateInfo = dateMatch ? dateMatch[0] : 'Date not found.';
 
-    return `Latest Market Data (as of ${dateInfo}):\n\n${combinedText}`;
-  } catch (error) {
-    console.error('Error in googleSearch:', error);
-    return '';
-  }
-};
+//     return `Latest Market Data (as of ${dateInfo}):\n\n${combinedText}`;
+//   } catch (error) {
+//     console.error('Error in googleSearch:', error);
+//     return '';
+//   }
+// };
 
 const callLlama3 = async (prompt, structuredContext = '') => {
   try {
@@ -62,6 +63,8 @@ const callLlama3 = async (prompt, structuredContext = '') => {
 const contentResolver = {
   Query: {
     contentHistory: async (_, { productId }, { user }) => {
+      console.log(`[Query:contentHistory] Fetching history for productId: ${productId}`);
+
         if (!user) {
           throw new AuthenticationError('Not authenticated');
         }
@@ -71,13 +74,18 @@ const contentResolver = {
 
   Mutation: {
     generateTitle: async (_, { input }, { user }) => {
+      console.log(`[Mutation:generateTitle] Starting for product: ${input.productId}`);
+
         if (!user) throw new AuthenticationError('Not authenticated');
         
         const product = await Product.findOne({ _id: input.productId, userId: user.id });
+        console.log(`[generateTitle] Product found: ${product.name}`);
+
         if (!product) throw new UserInputError('Product not found');
   
         const webData = await googleSearch(`${product.name} ${product.category} title examples marketplace`);
-        
+        console.log(`[generateTitle] Web data fetched: ${webData ? 'yes' : 'no'}`);
+
         const aiPrompt = `
           You are an expert in SEO and product titles. Create a compelling, SEO-optimized title for:
           
@@ -105,6 +113,8 @@ const contentResolver = {
         `;
   
         const response = await callLlama3(aiPrompt, webData);
+        console.log(`[generateTitle] AI response length: ${response?.length || 0} chars`);
+
         
         return await AIResponse.create({
           content: response,
@@ -116,12 +126,23 @@ const contentResolver = {
       },
   
       generateSEOTags: async (_, { input }, { user }) => {
+        console.log(`[Mutation:generateSEOTags] Starting for product: ${input.productId}`);
+
         if (!user) throw new AuthenticationError('Not authenticated');
         
         const product = await Product.findOne({ _id: input.productId, userId: user.id });
+        console.log(`[generateSEOTags] Product found: ${product.name}`);
+
         if (!product) throw new UserInputError('Product not found');
   
-        const webData = await googleSearch(`${product.name} ${product.category} SEO keywords meta tags`);
+        let webData = '';
+        try {
+          webData = await googleSearch(`${product.name} ${product.category} SEO keywords meta tags`);
+          console.log(`[generateSEOTags] Web data fetched: ${webData ? 'yes' : 'no'}`);
+
+        } catch (error) {
+          console.log('Skipping web data due to error:', error.message);
+        }
         
         const aiPrompt = `
           Generate SEO metadata for this product:
@@ -149,6 +170,8 @@ const contentResolver = {
         `;
   
         const response = await callLlama3(aiPrompt, webData);
+        console.log(`[generateSEOTags] AI response length: ${response?.length || 0} chars`);
+
         
         return await AIResponse.create({
           content: response,
@@ -160,14 +183,23 @@ const contentResolver = {
       },
   
       generateFullListing: async (_, { input }, { user }) => {
+        console.log(`[Mutation:generateFullListing] Starting for product: ${input.productId}`);
+
         if (!user) throw new AuthenticationError('Not authenticated');
         
         const product = await Product.findOne({ _id: input.productId, userId: user.id });
+        console.log(`[generateFullListing] Product found: ${product.name}`);
+
         if (!product) throw new UserInputError('Product not found');
-  
-        const webData = await googleSearch(
-          `${product.name} ${new Date().getFullYear()} complete specifications features reviews`
-        );
+
+        let webData = '';
+        try {
+          webData = await googleSearch(`${product.name} ${new Date().getFullYear()} complete specifications features reviews`);
+          console.log(`[generateFullListing] Web data fetched: ${webData ? 'yes' : 'no'}`);
+
+        } catch (error) {
+          console.log('Skipping web data due to error:', error.message);
+        }
         
         const aiPrompt = `
           Create a complete product listing with HTML formatting:
@@ -198,6 +230,8 @@ const contentResolver = {
         `;
   
         const response = await callLlama3(aiPrompt, webData);
+        console.log(`[generateFullListing] AI response length: ${response?.length || 0} chars`);
+
         
         return await AIResponse.create({
           content: response,
@@ -222,6 +256,8 @@ const contentResolver = {
       },
 
     chat: async (_, { input }, { user }) => {
+      console.log(`[Mutation:chat] Starting chat for product: ${input.productId}`);
+
       if (!user) {
         throw new AuthenticationError('Not authenticated');
       }
@@ -230,6 +266,9 @@ const contentResolver = {
         _id: input.productId, 
         userId: user.id 
       });
+      console.log(`[chat] Product found: ${product.name}`);
+      console.log(`[chat] Last message: ${input.messages[input.messages.length - 1].message.substring(0, 50)}...`);
+
 
       if (!product) {
         throw new UserInputError('Product not found');
@@ -241,22 +280,43 @@ const contentResolver = {
       if (input.searchWeb) {
         const searchQuery = `${product.name} ${lastMessage}`;
         webData = await googleSearch(searchQuery);
+        console.log(`[chat] Web data fetched: ${webData ? 'yes' : 'no'}`);
+
       }
 
       const conversation = `
-        You are an AI assistant specializing in ${product.category || ''} products.
+        You are an AI assistant specializing in ${product.category} products and market analysis.
+        
+        IMPORTANT INSTRUCTIONS:
+        1. Focus on providing accurate, up-to-date information about ${product.name}
+        2. When web data is provided, use it as your primary source for current market information
+        3. If the web data is irrelevant or outdated, acknowledge this and provide a disclaimer
+        4. Structure your response with clear sections (Features, Pricing, Comparisons, etc.)
+        5. If specific details are not available, be transparent about it
+
+         Format your response in HTML using these guidelines:
+        - Use <h3> for section headings
+        - Use <ul> or <ol> for lists
+        - Use <p> for paragraphs
+        - Use <strong> for emphasis
+        - Use <br> for line breaks
+        - Use <div class="highlight"> for important information
+        Keep the HTML simple and semantic.
         
         Product Information:
         Name: ${product.name}
-        Category: ${product.category || 'N/A'}
-        Description: ${product.description || 'N/A'}
-        Price: ${product.price || 'N/A'} ${product.currency || 'USD'}
+        Category: ${product.category}
+        Description: ${product.description}
+        Price: ${product.price} ${product.currency}
+        
         
         User Query: ${lastMessage}
         ${webData ? `\nMarket Data:\n${webData}` : ''}
       `;
 
       const response = await callLlama3(conversation, webData);
+      console.log(`[chat] AI response length: ${response?.length || 0} chars`);
+
 
       return {
         content: response,

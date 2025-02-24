@@ -51,11 +51,26 @@ async function startServer() {
 
     const resolvers = require('./resolvers');
 
+    app.use(express.json({ limit: '50mb' }));
+    app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+
+
     const server = new ApolloServer({
       typeDefs,
       resolvers,
       introspection: true,  // Explicitly enable introspection
       includeStacktraceInErrorResponses: true,  // Helpful for debugging
+      csrfPrevention: true,
+      cache: 'bounded',
+      apollo: {
+        graphqlDepthLimit: 10,
+        uploadMaxFileSize: 50 * 1024 * 1024, // 50MB
+      },
+      uploads: {
+        maxFileSize: 50 * 1024 * 1024, // 50MB
+        maxFiles: 1
+      },
+    
       formatError: (error) => {
         console.error('GraphQL Error:', error);
         return error;
