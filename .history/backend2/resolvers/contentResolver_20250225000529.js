@@ -76,152 +76,51 @@ const contentResolver = {
   },
 
   Mutation: {
-    generateTitle: async (_, { input }, { user }) => {
-        if (!user) {
-          throw new AuthenticationError('Not authenticated');
-        }
-  
-        const product = await Product.findOne({ 
-          _id: input.productId, 
-          userId: user.id 
-        });
-  
-        if (!product) {
-          throw new UserInputError('Product not found');
-        }
-  
-        const webData = await googleSearch(
-          `${product.name} ${product.category} title examples marketplace`
-        );
-  
-        const aiPrompt = `
-          You are an expert in SEO and product titles. Create a compelling, SEO-optimized title for:
-          
-          Product Name: ${product.name}
-          Category: ${product.category || 'N/A'}
-          Description: ${product.description || 'N/A'}
-          Price: ${product.price || 'N/A'} ${product.currency || 'USD'}
-          
-          Requirements:
-          - Keep under 70 characters
-          - Include main keywords
-          - Be compelling and clickable
-          - Match marketplace best practices
-          
-          ${webData ? `\nMarket Research:\n${webData}` : ''}
-        `;
-  
-        const response = await callLlama3(aiPrompt, webData);
-  
-        return await AIResponse.create({
-          content: response,
-          contentType: 'title',
-          productId: input.productId,
-          generatedAt: new Date(),
-          webDataUsed: !!webData
-        });
-      },
-  
-      generateSEOTags: async (_, { input }, { user }) => {
-        if (!user) {
-          throw new AuthenticationError('Not authenticated');
-        }
-  
-        const product = await Product.findOne({ 
-          _id: input.productId, 
-          userId: user.id 
-        });
-  
-        if (!product) {
-          throw new UserInputError('Product not found');
-        }
-  
-        const webData = await googleSearch(
-          `${product.name} ${product.category} SEO keywords meta tags`
-        );
-  
-        const aiPrompt = `
-          Generate SEO metadata for this product:
-          
-          Product Name: ${product.name}
-          Category: ${product.category || 'N/A'}
-          Description: ${product.description || 'N/A'}
-          
-          Provide:
-          1. Meta description (160 characters max)
-          2. Focus keywords (5-7 keywords)
-          3. Secondary keywords (3-5 keywords)
-          4. Suggested hashtags
-          
-          Format in HTML with clear sections.
-          ${webData ? `\nMarket Research:\n${webData}` : ''}
-        `;
-  
-        const response = await callLlama3(aiPrompt, webData);
-  
-        return await AIResponse.create({
-          content: response,
-          contentType: 'seo_tags',
-          productId: input.productId,
-          generatedAt: new Date(),
-          webDataUsed: !!webData
-        });
-      },
-  
-      generateFullListing: async (_, { input }, { user }) => {
-        if (!user) {
-          throw new AuthenticationError('Not authenticated');
-        }
-  
-        const product = await Product.findOne({ 
-          _id: input.productId, 
-          userId: user.id 
-        });
-  
-        if (!product) {
-          throw new UserInputError('Product not found');
-        }
-  
-        const webData = await googleSearch(
-          `${product.name} ${new Date().getFullYear()} complete specifications features reviews`
-        );
-  
-        const aiPrompt = `
-          Create a complete product listing with HTML formatting:
-          
-          Product Name: ${product.name}
-          Category: ${product.category || 'N/A'}
-          Description: ${product.description || 'N/A'}
-          Price: ${product.price || 'N/A'} ${product.currency || 'USD'}
-          
-          Format using:
-          - <h3> for sections
-          - <ul> or <ol> for lists
-          - <p> for paragraphs
-          - <strong> for emphasis
-          - <div class="highlight"> for key points
-          
-          Include:
-          1. Product Overview
-          2. Key Features
-          3. Technical Specifications
-          4. Benefits
-          5. Use Cases
-          6. Warranty/Support Info
-          
-          ${webData ? `\nMarket Research:\n${webData}` : ''}
-        `;
-  
-        const response = await callLlama3(aiPrompt, webData);
-  
-        return await AIResponse.create({
-          content: response,
-          contentType: 'full_listing',
-          productId: input.productId,
-          generatedAt: new Date(),
-          webDataUsed: !!webData
-        });
-      },
+    generateContent: async (_, { input }, { user }) => {
+      if (!user) {
+        throw new AuthenticationError('Not authenticated');
+      }
+
+      const product = await Product.findOne({ 
+        _id: input.productId, 
+        userId: user.id 
+      });
+
+      if (!product) {
+        throw new UserInputError('Product not found');
+      }
+
+      let webData = '';
+      if (input.promptType === 'full_listing') {
+        const searchQuery = `${product.name} ${new Date().getFullYear()} complete specifications features price comparison reviews`;
+        webData = await googleSearch(searchQuery);
+      }
+
+      const aiPrompt = `
+        You are an expert product marketer. Create content for the following product:
+        
+        Product Name: ${product.name}
+        Category: ${product.category || 'N/A'}
+        Description: ${product.description || 'N/A'}
+        Price: ${product.price || 'N/A'} ${product.currency || 'USD'}
+        Content Type: ${input.promptType}
+        Sentiment: ${input.sentiment || 'neutral'}
+        
+        ${webData ? `\nMarket Data:\n${webData}` : ''}
+      `;
+
+      const response = await callLlama3(aiPrompt, webData);
+
+      const aiResponse = await AIResponse.create({
+        content: response,
+        contentType: input.promptType,
+        productId: input.productId,
+        generatedAt: new Date(),
+        webDataUsed: !!webData
+      });
+
+      return aiResponse;
+    },
 
     chat: async (_, { input }, { user }) => {
       if (!user) {

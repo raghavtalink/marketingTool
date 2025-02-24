@@ -23,7 +23,7 @@ type Mutation {
   updateCampaign(id: ID!, input: UpdateCampaignInput!): SocialMediaCampaign!
   deleteCampaign(id: ID!): Boolean!
   generateCampaignContent(campaignId: ID!, platform: SocialMediaPlatform!): ContentPlan!
-  generateTitle(input: ContentInput!): AIResponse!
+ generateTitle(input: ContentInput!): AIResponse!
   generateSEOTags(input: ContentInput!): AIResponse!
   generateFullListing(input: ContentInput!): AIResponse!
   chat(input: ChatInput!): ChatResponse!
