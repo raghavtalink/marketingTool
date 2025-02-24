@@ -102,7 +102,7 @@ const contentResolver = {
           Description: ${product.description || 'N/A'}
           Price: ${product.price || 'N/A'} ${product.currency || 'USD'}
 
-        Format your response in HTML using these guidelines:
+          Format your response in HTML using these guidelines:
        - Use <h3> for section headings
        - Use <ul> or <ol> for lists
        - Use <p> for paragraphs

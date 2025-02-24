@@ -101,15 +101,6 @@ const contentResolver = {
           Category: ${product.category || 'N/A'}
           Description: ${product.description || 'N/A'}
           Price: ${product.price || 'N/A'} ${product.currency || 'USD'}
-
-        Format your response in HTML using these guidelines:
-       - Use <h3> for section headings
-       - Use <ul> or <ol> for lists
-       - Use <p> for paragraphs
-       - Use <strong> for emphasis
-       - Use <br> for line breaks
-       - Use <div class="highlight"> for important information
-       Keep the HTML simple and semantic.
           
           Requirements:
           - Keep under 70 characters
@@ -155,15 +146,6 @@ const contentResolver = {
           Product Name: ${product.name}
           Category: ${product.category || 'N/A'}
           Description: ${product.description || 'N/A'}
-
-          Format your response in HTML using these guidelines:
-       - Use <h3> for section headings
-       - Use <ul> or <ol> for lists
-       - Use <p> for paragraphs
-       - Use <strong> for emphasis
-       - Use <br> for line breaks
-       - Use <div class="highlight"> for important information
-       Keep the HTML simple and semantic.
           
           Provide:
           1. Meta description (160 characters max)
@@ -212,16 +194,14 @@ const contentResolver = {
           Description: ${product.description || 'N/A'}
           Price: ${product.price || 'N/A'} ${product.currency || 'USD'}
           
-        Format your response in HTML using these guidelines:
-       - Use <h3> for section headings
-       - Use <ul> or <ol> for lists
-       - Use <p> for paragraphs
-       - Use <strong> for emphasis
-       - Use <br> for line breaks
-       - Use <div class="highlight"> for important information
-       Keep the HTML simple and semantic.
+          Format using:
+          - <h3> for sections
+          - <ul> or <ol> for lists
+          - <p> for paragraphs
+          - <strong> for emphasis
+          - <div class="highlight"> for key points
           
-          Include data like:
+          Include data li:
           1. Product Overview
           2. Key Features
           3. Technical Specifications
