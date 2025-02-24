@@ -1,0 +1,132 @@
+scalar DateTime
+scalar Upload
+
+type User {
+  id: ID!
+  username: String!
+  email: String!
+}
+
+type Token {
+  accessToken: String!
+  tokenType: String!
+}
+
+type Product {
+  id: ID!
+  name: String!
+  description: String
+  category: String
+  price: Float
+  inventoryCount: Int
+  competitorUrls: [String]
+  currency: String
+  userId: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type AIResponse {
+  content: String!
+  contentType: String!
+  productId: String!
+  generatedAt: DateTime
+}
+
+type SocialMediaCampaign {
+  id: ID!
+  productId: String!
+  campaignName: String!
+  platforms: [String!]!
+  objectives: [String!]!
+  contentPlan: String
+  createdAt: DateTime!
+}
+
+input UserCreateInput {
+  username: String!
+  email: String!
+  password: String!
+}
+
+input UserLoginInput {
+  email: String!
+  password: String!
+}
+
+input ProductCreateInput {
+  name: String!
+  description: String
+  category: String
+  price: Float
+  inventoryCount: Int
+  competitorUrls: [String]
+  currency: String
+}
+
+input AIPromptInput {
+  productId: String!
+  promptType: String!
+  sentiment: String
+}
+
+input SocialMediaCampaignInput {
+  productId: String!
+  campaignName: String!
+  platforms: [String!]!
+  objectives: [String!]!
+}
+
+type Query {
+  me: User
+  product(id: ID!): Product
+  products: [Product!]!
+  contentHistory(productId: String!): [AIResponse!]!
+  campaigns: [SocialMediaCampaign!]!
+}
+
+type Mutation {
+  createUser(input: UserCreateInput!): User!
+  login(input: UserLoginInput!): Token!
+  createProduct(input: ProductCreateInput!): Product!
+  generateContent(input: AIPromptInput!): AIResponse!
+  createCampaign(input: SocialMediaCampaignInput!): SocialMediaCampaign!
+}
+
+type Product {
+  id: ID!
+  name: String!
+  description: String
+  category: String
+  price: Float
+  inventoryCount: Int
+  competitorUrls: [String]
+  currency: String
+  userId: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input ProductCreateInput {
+  name: String!
+  description: String
+  category: String
+  price: Float
+  inventoryCount: Int
+  competitorUrls: [String]
+  currency: String
+}
+
+# Add these to the Query type
+extend type Query {
+  products: [Product!]!
+  product(id: ID!): Product
+  me: User
+}
+
+# Add these to the Mutation type
+extend type Mutation {
+  createProduct(input: ProductCreateInput!): Product!
+  register(input: UserCreateInput!): User!
+  login(input: UserLoginInput!): Token!
+}
