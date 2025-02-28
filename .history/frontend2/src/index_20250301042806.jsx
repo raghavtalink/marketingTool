@@ -9,6 +9,7 @@ import './index.css';
 const httpLink = createHttpLink({
   uri: 'https://stagingbackend.onrender.com/graphql',
   credentials: 'include'
+
 });
 
 // Create the Apollo Client

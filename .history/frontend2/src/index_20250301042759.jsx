@@ -8,7 +8,7 @@ import './index.css';
 // Create an HTTP link to the GraphQL API
 const httpLink = createHttpLink({
   uri: 'https://stagingbackend.onrender.com/graphql',
-  credentials: 'include'
+  
 });
 
 // Create the Apollo Client
