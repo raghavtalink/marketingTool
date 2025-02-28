@@ -36,7 +36,6 @@ async function startServer() {
       'https://stagingbackend.onrender.com',
       'https://sellovate.onrender.com/',
       'http://localhost:5173',
-      'https://stagingbackend.onrender.com/graphql'
     ],
     credentials: true,
   };
