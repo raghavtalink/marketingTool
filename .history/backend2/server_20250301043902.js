@@ -34,7 +34,7 @@ async function startServer() {
       'http://103.40.61.70:30080',
       'http://103.40.61.70:30081',
       'https://stagingbackend.onrender.com',
-      'https://sellovate.onrender.com',
+      'https://sellovate.onrender.com/',
       'https://sellovate.onrender.com/',
       'http://localhost:5173',
       'https://stagingbackend.onrender.com/graphql'
