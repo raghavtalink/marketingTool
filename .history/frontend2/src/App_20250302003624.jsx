@@ -7,7 +7,7 @@ import PricingTable from './pages/Pricing';
 import ContactPage from './pages/ContactPage';
 import AboutPage from './pages/AboutUs';
 import RegisterPage from './pages/Register';
-import LoginPage from './pages/Login';
+
 
 
 function App() {

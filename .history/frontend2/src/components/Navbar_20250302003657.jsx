@@ -27,11 +27,6 @@ export default function Navbar() {
   const handleRegisterClick = () => {
     navigate('/register');
   };
-  
-  // Function to handle login button click
-  const handleLoginClick = () => {
-    navigate('/login');
-  };
 
   return (
     <header
@@ -57,10 +52,7 @@ export default function Navbar() {
 
       
         <div className="hidden lg:flex space-x-4">
-          <button 
-            className="bg-black text-white px-4 py-2 border-1 rounded-md text-md font-semibold hover:bg-black-200"
-            onClick={handleLoginClick} // Add onClick handler for login
-          >
+          <button className="bg-black text-white px-4 py-2 border-1 rounded-md text-md font-semibold hover:bg-black-200">
             SIGN IN
           </button>
           <button 
@@ -94,13 +86,7 @@ export default function Navbar() {
             ))}
           </ul>
           <div className="flex flex-col space-y-2 mt-4">
-            <button 
-              className="bg-white text-black py-2 rounded-md text-sm font-semibold hover:bg-gray-200"
-              onClick={() => {
-                setIsOpen(false);
-                navigate('/login');
-              }} // Add onClick handler for mobile login
-            >
+            <button className="bg-white text-black py-2 rounded-md text-sm font-semibold hover:bg-gray-200">
               SIGN IN
             </button>
             <button 

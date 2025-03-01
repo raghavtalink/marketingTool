@@ -7,7 +7,7 @@ import PricingTable from './pages/Pricing';
 import ContactPage from './pages/ContactPage';
 import AboutPage from './pages/AboutUs';
 import RegisterPage from './pages/Register';
-import LoginPage from './pages/Login';
+
 
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/login" element={<LoginPage />} />
+          
         </Routes>
       </div>
     
