@@ -2,6 +2,8 @@ const { AuthenticationError, UserInputError } = require('apollo-server-express')
 const { Product, AIResponse } = require('../models');
 const axios = require('axios');
 const googleSearch = require('../utils/googleSearch');
+const { scrapeProduct } = require('../utils/productScraper');
+
 
 const CLOUDFLARE_API_URL = process.env.CLOUDFLARE_API_URL;
 const CLOUDFLARE_AUTH_TOKEN = process.env.CLOUDFLARE_AUTH_TOKEN;
@@ -69,6 +71,22 @@ const contentResolver = {
           throw new AuthenticationError('Not authenticated');
         }
         return await AIResponse.find({ productId }).sort({ generatedAt: -1 });
+      },
+      scrapeProductData: async (_, { url }, { user }) => {
+        console.log(`[Query:scrapeProductData] Starting for URL: ${url}`);
+        
+        if (!user) {
+          throw new AuthenticationError('Not authenticated');
+        }
+        
+        try {
+          const productData = await scrapeProduct(url);
+          console.log(`[scrapeProductData] Successfully scraped data from: ${url}`);
+          return productData;
+        } catch (error) {
+          console.error(`[scrapeProductData] Error:`, error);
+          throw new Error(`Failed to scrape product: ${error.message}`);
+        }
       },
     },
 
@@ -347,7 +365,43 @@ const contentResolver = {
       await AIResponse.findByIdAndDelete(contentId);
       return true;
     },
-  },
+    importScrapedProduct: async (_, { url }, { user }) => {
+      console.log(`[Mutation:importScrapedProduct] Starting for URL: ${url}`);
+      
+      if (!user) {
+        throw new AuthenticationError('Not authenticated');
+      }
+      
+      try {
+        const productData = await scrapeProduct(url);
+        console.log(`[importScrapedProduct] Successfully scraped data from: ${url}`);
+        
+        // Create a new product with the scraped data
+        const newProduct = await Product.create({
+          name: productData.title,
+          description: productData.description,
+          price: parseFloat(productData.price?.replace(/[^0-9.]/g, '')) || 0,
+          currency: productData.price?.match(/[$€£₹]/)?.[0] || 'USD',
+          category: productData.category || 'Other',
+          userId: user.id,
+          sourceUrl: url,
+          sourcePlatform: productData.platform,
+          imageUrls: productData.images,
+          metadata: {
+            specifications: productData.specifications,
+            features: productData.features,
+            rating: productData.rating,
+            reviews: productData.reviews
+          }
+        });
+        
+        return newProduct;
+      } catch (error) {
+        console.error(`[importScrapedProduct] Error:`, error);
+        throw new Error(`Failed to import product: ${error.message}`);
+      }
+    },
+  }
 };
 
 module.exports = contentResolver;

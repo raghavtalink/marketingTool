@@ -26,7 +26,7 @@ type Mutation {
   generateFullListing(input: GenerateContentInput!): AIResponse!
   chat(input: ChatInput!): ChatResponse!
   deleteGeneratedContent(contentId: ID!): Boolean!
-
+  importScrapedProduct(url: String!): Product
 }
 
 type User {
@@ -298,4 +298,22 @@ type ContentPlan {
 input GenerateContentInput {
   productId: String!
   sentiment: String
+}
+
+type ScrapedProductData {
+  title: String
+  price: String
+  description: String
+  images: [String]
+  rating: String
+  reviews: [String]
+  specifications: String
+  features: [String]
+  sourceUrl: String
+  platform: String
+  category: String
+}
+
+extend type Query {
+  scrapeProductData(url: String!): ScrapedProductData
 }

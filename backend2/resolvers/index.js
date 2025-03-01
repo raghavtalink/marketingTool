@@ -20,6 +20,7 @@ const resolvers = {
     imageEditorProject: imageEditorResolver.Query.imageEditorProject,
     campaigns: socialMediaResolver.Query.campaigns,
     campaign: socialMediaResolver.Query.campaign,
+    scrapeProductData: contentResolver.Query.scrapeProductData,
   },
   Mutation: {
     register: userResolver.Mutation.register,
@@ -41,6 +42,7 @@ const resolvers = {
     generateTitle: contentResolver.Mutation.generateTitle,
     generateSEOTags: contentResolver.Mutation.generateSEOTags,
     generateFullListing: contentResolver.Mutation.generateFullListing,
+    importScrapedProduct: productResolver.Mutation.importScrapedProduct,
   }
 };
 
