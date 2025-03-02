@@ -88,10 +88,9 @@ const Dashboard = () => {
         return <BundleBuilder />;
         case 'ad-crafter':
         return <AdCrafter />;
-        case 'trendspot':
-         return <TrendSpot />;
     //   case 'instant-studio':
     //     return <InstantStudio />;
+
     //   case 'home':
     //   default:
     //     return <DashboardHome />;

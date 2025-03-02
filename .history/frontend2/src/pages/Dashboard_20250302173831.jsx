@@ -26,7 +26,7 @@ import BundleBuilder from '../components/dashboard/BundleBuilder';
  import ProductGenius from '../components/dashboard/ProductGenius';
  import PricePilot from '../components/dashboard/PricePilot';
 // import InstantStudio from '../components/dashboard/InstantStudio';
- import TrendSpot from '../components/dashboard/TrendSpot';
+// import TrendSpot from '../components/dashboard/TrendSpot';
  import AdCrafter from '../components/dashboard/AdCrafter';
 // import DashboardHome from '../components/dashboard/DashboardHome';
 
@@ -88,10 +88,10 @@ const Dashboard = () => {
         return <BundleBuilder />;
         case 'ad-crafter':
         return <AdCrafter />;
-        case 'trendspot':
-         return <TrendSpot />;
     //   case 'instant-studio':
     //     return <InstantStudio />;
+    //   case 'trendspot':
+    //     return <TrendSpot />;
     //   case 'home':
     //   default:
     //     return <DashboardHome />;

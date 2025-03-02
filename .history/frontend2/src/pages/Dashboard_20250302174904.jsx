@@ -89,7 +89,7 @@ const Dashboard = () => {
         case 'ad-crafter':
         return <AdCrafter />;
         case 'trendspot':
-         return <TrendSpot />;
+    /     return <TrendSpot />;
     //   case 'instant-studio':
     //     return <InstantStudio />;
     //   case 'home':

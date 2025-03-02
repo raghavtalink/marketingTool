@@ -22,12 +22,12 @@ import { Link, useNavigate } from 'react-router-dom';
 // Import components for each feature
 import ListingWizard from '../components/dashboard/ListingWizard';
 import Products from '../components/dashboard/Products';
-import BundleBuilder from '../components/dashboard/BundleBuilder';
+// import BundleBuilder from '../components/dashboard/BundleBuilder';
  import ProductGenius from '../components/dashboard/ProductGenius';
  import PricePilot from '../components/dashboard/PricePilot';
 // import InstantStudio from '../components/dashboard/InstantStudio';
- import TrendSpot from '../components/dashboard/TrendSpot';
- import AdCrafter from '../components/dashboard/AdCrafter';
+// import TrendSpot from '../components/dashboard/TrendSpot';
+// import AdCrafter from '../components/dashboard/AdCrafter';
 // import DashboardHome from '../components/dashboard/DashboardHome';
 
 const Dashboard = () => {
@@ -84,14 +84,14 @@ const Dashboard = () => {
         return <ProductGenius />;
         case 'price-pilot':
         return <PricePilot />;
-      case 'bundle-builder':
-        return <BundleBuilder />;
-        case 'ad-crafter':
-        return <AdCrafter />;
-        case 'trendspot':
-         return <TrendSpot />;
+    //   case 'bundle-builder':
+    //     return <BundleBuilder />;
     //   case 'instant-studio':
     //     return <InstantStudio />;
+    //   case 'trendspot':
+    //     return <TrendSpot />;
+    //   case 'ad-crafter':
+    //     return <AdCrafter />;
     //   case 'home':
     //   default:
     //     return <DashboardHome />;
