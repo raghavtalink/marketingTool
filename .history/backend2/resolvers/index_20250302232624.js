@@ -14,7 +14,8 @@ const resolvers = {
     me: userResolver.Query.me,
     userStats: userResolver.Query.userStats,
     userActivity: userResolver.Query.userActivity,
-    userContentBreakdown: userResolver.Query.userContentBreakdown,  
+    userContentBreakdown: userResolver.Query.userContentBreakdown,
+  
     products: productResolver.Query.products,
     product: productResolver.Query.product,
     contentHistory: contentResolver.Query.contentHistory,

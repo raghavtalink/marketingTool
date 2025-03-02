@@ -3,6 +3,7 @@ import { motion, useAnimation } from 'framer-motion';
 import { useQuery, useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
 import '../../custom.css';
+
 import { 
   Search, 
   Package, 

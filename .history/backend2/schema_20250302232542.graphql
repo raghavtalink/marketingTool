@@ -189,7 +189,7 @@ me: User
   userStats: UserStats!
   userActivity(limit: Int): [UserActivity!]!
   userContentBreakdown: ContentBreakdown!
-  scrapeProductData(url: String!): ScrapedProductData
+    scrapeProductData(url: String!): ScrapedProductData
 
 }
 
@@ -319,6 +319,17 @@ type ScrapedProductData {
   category: String
 }
 
+extend type Query {
+  scrapeProductData(url: String!): ScrapedProductData
+}
+
+type Query {
+  userStats: UserStats!
+  userActivity(limit: Int): [UserActivity!]!
+  userContentBreakdown: ContentBreakdown!
+}
+
+# New types to add to schema.graphql
 type UserStats {
   id: ID!
   email: String!

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery, useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
-import '../../custom.css';
+import ..//custom.css
 import { 
   Megaphone, 
   Plus, 

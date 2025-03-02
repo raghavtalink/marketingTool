@@ -1,89 +1,29 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useQuery } from '@apollo/client';
-import { gql } from '@apollo/client';
-import '../../custom.css';
-
 import { 
-  TrendingUp, 
-  Bell, 
-  CheckCircle, 
-  Clock, 
-  AlertTriangle, 
-  Calendar,
-  BarChart2,
-  ArrowUpRight,
-  Lightbulb,
-  ExternalLink,
-  ChevronRight,
-  Zap,
-  Award,
-  Star,
-  Truck,
-  Package,
-  PlusCircle,
-  Tag,
-  FileText,
-  Users,
-  PieChart,
-  Loader
+    TrendingUp, 
+    Bell, 
+    CheckCircle, 
+    Clock, 
+    AlertTriangle, 
+    Calendar,
+    BarChart2,
+    ArrowUpRight,
+    Lightbulb,
+    ExternalLink,
+    ChevronRight,
+    Zap,
+    Award,
+    Star,
+    Truck,
+    Package,
+    PlusCircle,
+    Tag
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-// GraphQL queries
-const GET_USER_STATS = gql`
-  query UserStats {
-    userStats {
-      id
-      email
-      username
-      productsCount
-      chatsCount
-      marketAnalysesCount
-      imageProjectsCount
-      totalGeneratedContent
-      memberSince
-    }
-  }
-`;
-
-const GET_USER_ACTIVITY = gql`
-  query UserActivity($limit: Int) {
-    userActivity(limit: $limit) {
-      type
-      description
-      timestamp
-      entityId
-      entityType
-      productId
-    }
-  }
-`;
-
-const GET_CONTENT_BREAKDOWN = gql`
-  query UserContentBreakdown {
-    userContentBreakdown {
-      contentTypeBreakdown {
-        type
-        count
-      }
-      marketAnalysisBreakdown {
-        type
-        count
-      }
-    }
-  }
-`;
-
 const DashboardHome = () => {
   const [activeInsight, setActiveInsight] = useState(0);
-  
-  // Fetch user data from APIs
-  const { data: statsData, loading: statsLoading } = useQuery(GET_USER_STATS);
-  const { data: activityData, loading: activityLoading } = useQuery(GET_USER_ACTIVITY, {
-    variables: { limit: 10 }
-  });
-  const { data: breakdownData, loading: breakdownLoading } = useQuery(GET_CONTENT_BREAKDOWN);
   
   // Get greeting based on time of day
   const getGreeting = () => {
@@ -93,52 +33,12 @@ const DashboardHome = () => {
     return "Good evening";
   };
   
-  // Format membership date
-  const formatMemberDate = (dateString) => {
-    if (!dateString) return '';
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
-  };
-  
-  // Format timestamp for activity
-  const formatActivityTime = (timestamp) => {
-    if (!timestamp) return '';
-    
-    const activityDate = new Date(timestamp);
-    const now = new Date();
-    const diffMs = now - activityDate;
-    const diffMins = Math.round(diffMs / 60000);
-    const diffHours = Math.round(diffMs / 3600000);
-    const diffDays = Math.round(diffMs / 86400000);
-    
-    if (diffMins < 60) return `${diffMins} mins ago`;
-    if (diffHours < 24) return `${diffHours} hours ago`;
-    if (diffDays < 7) return `${diffDays} days ago`;
-    return activityDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-  };
-  
-  // Get icon based on activity type
-  const getActivityIcon = (type) => {
-    switch(type) {
-      case 'MARKET_ANALYSIS':
-        return <TrendingUp size={16} className="text-purple-400" />;
-      case 'CONTENT_GENERATED':
-        return <FileText size={16} className="text-blue-400" />;
-      case 'PRODUCT_CREATED':
-        return <Package size={16} className="text-green-400" />;
-      case 'CHAT_COMPLETED':
-        return <MessageSquare size={16} className="text-yellow-400" />;
-      default:
-        return <CheckCircle size={16} className="text-gray-400" />;
-    }
-  };
-  
-  // Mock data for insights - could be replaced with API data
+  // Mock data - in real app would come from API
   const insights = [
     {
       id: 1,
       title: "Product Bundle Opportunity",
-      description: "Your products are frequently purchased together. Consider creating a bundle with a 15% discount to increase average order value.",
+      description: "Your 'Wireless Earbuds' and 'Phone Charger' are frequently purchased together. Consider creating a bundle with a 15% discount to increase average order value.",
       type: "opportunity",
       icon: <Zap size={18} />,
       action: "Create Bundle",
@@ -148,7 +48,7 @@ const DashboardHome = () => {
     {
       id: 2,
       title: "Competitor Price Alert",
-      description: "A competitor has lowered their price on a similar product. Consider reviewing your pricing strategy.",
+      description: "A competitor has lowered their price on a similar product to your 'Smart Watch'. Consider reviewing your pricing strategy.",
       type: "alert",
       icon: <AlertTriangle size={18} />,
       action: "Analyze Pricing",
@@ -158,7 +58,7 @@ const DashboardHome = () => {
     {
       id: 3,
       title: "Trending Product Category",
-      description: "Eco-friendly products are trending in your market. Consider adding these to your product line.",
+      description: "Eco-friendly water bottles are trending in your market. Consider adding these to your product line.",
       type: "trend",
       icon: <TrendingUp size={18} />,
       action: "View Trends",
@@ -167,45 +67,66 @@ const DashboardHome = () => {
     }
   ];
   
-  // Tips based on user's product count
-  const getTipOfTheDay = () => {
-    const productsCount = statsData?.userStats?.productsCount || 0;
-    
-    if (productsCount === 0) {
-      return {
-        title: "Add Your First Product",
-        content: "Start by adding your first product to analyze market opportunities and generate optimized listings.",
-        link: "/dashboard/products"
-      };
-    } else if (productsCount < 3) {
-      return {
-        title: "Expand Your Catalog",
-        content: "Our AI can identify complementary products to expand your catalog and increase average order value.",
-        link: "/dashboard/trendspot"
-      };
-    } else {
-      return {
-        title: "Optimize Your Product Titles",
-        content: "Include key features, benefits, and important keywords in your product titles to improve search visibility and conversion rates.",
-        link: "/dashboard/listing-wizard"
-      };
+  const recentActivity = [
+    { 
+      id: 1, 
+      action: "Product added", 
+      description: "Smart Watch XS Pro", 
+      time: "2 hours ago",
+      icon: <CheckCircle size={16} className="text-green-400" />
+    },
+    { 
+      id: 2, 
+      action: "Listing optimized", 
+      description: "Wireless Earbuds", 
+      time: "Yesterday",
+      icon: <Star size={16} className="text-yellow-400" />
+    },
+    { 
+      id: 3, 
+      action: "Bundle created", 
+      description: "Summer Essentials Pack", 
+      time: "2 days ago",
+      icon: <Package size={16} className="text-purple-400" />
+    },
+    { 
+      id: 4, 
+      action: "New order", 
+      description: "Order #8742 - $124.99", 
+      time: "3 days ago",
+      icon: <Truck size={16} className="text-blue-400" />
     }
+  ];
+
+  const upcomingTasks = [
+    { 
+      id: 1, 
+      task: "Update product descriptions", 
+      due: "Today", 
+      priority: "High",
+      completed: false
+    },
+    { 
+      id: 2, 
+      task: "Review competitor analysis", 
+      due: "Tomorrow", 
+      priority: "Medium",
+      completed: false
+    },
+    { 
+      id: 3, 
+      task: "Optimize product images", 
+      due: "Next week", 
+      priority: "Low",
+      completed: true
+    }
+  ];
+  
+  const tipOfTheDay = {
+    title: "Optimize Your Product Titles",
+    content: "Include key features, benefits, and important keywords in your product titles to improve search visibility and conversion rates.",
+    link: "/tips/product-titles"
   };
-  
-  // Loading state
-  if (statsLoading && activityLoading && breakdownLoading) {
-    return (
-      <div className="h-full flex items-center justify-center">
-        <div className="text-center">
-          <Loader size={40} className="animate-spin mx-auto text-purple-500 mb-4" />
-          <p className="text-gray-400">Loading your dashboard...</p>
-        </div>
-      </div>
-    );
-  }
-  
-  const userName = statsData?.userStats?.username?.split('.')[0] || 'there';
-  const tipOfTheDay = getTipOfTheDay();
   
   return (
     <div className="h-full">
@@ -213,7 +134,7 @@ const DashboardHome = () => {
       <div className="mb-8 flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500">
-            {getGreeting()}, {userName}
+            {getGreeting()}, James
           </h1>
           <p className="mt-1 text-gray-400">
             {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
@@ -238,15 +159,16 @@ const DashboardHome = () => {
         >
           <div className="flex justify-between items-start">
             <div>
-              <h3 className="text-gray-400 text-sm font-medium">Products</h3>
-              <p className="text-3xl font-bold mt-2">{statsData?.userStats?.productsCount || 0}</p>
+              <h3 className="text-gray-400 text-sm font-medium">Active Products</h3>
+              <p className="text-3xl font-bold mt-2">24</p>
             </div>
             <div className="p-3 rounded-md bg-blue-500/10">
               <Package size={20} className="text-blue-400" />
             </div>
           </div>
-          <div className="mt-3 flex items-center text-gray-400 text-sm">
-            <span>Active catalog</span>
+          <div className="mt-3 flex items-center text-green-400 text-sm">
+            <ArrowUpRight size={14} className="mr-1" />
+            <span>+3 this month</span>
           </div>
         </motion.div>
         
@@ -256,15 +178,16 @@ const DashboardHome = () => {
         >
           <div className="flex justify-between items-start">
             <div>
-              <h3 className="text-gray-400 text-sm font-medium">Market Analyses</h3>
-              <p className="text-3xl font-bold mt-2">{statsData?.userStats?.marketAnalysesCount || 0}</p>
+              <h3 className="text-gray-400 text-sm font-medium">Total Sales (30d)</h3>
+              <p className="text-3xl font-bold mt-2">$12,450</p>
             </div>
             <div className="p-3 rounded-md bg-green-500/10">
               <BarChart2 size={20} className="text-green-400" />
             </div>
           </div>
-          <div className="mt-3 flex items-center text-gray-400 text-sm">
-            <span>Completed analyses</span>
+          <div className="mt-3 flex items-center text-green-400 text-sm">
+            <ArrowUpRight size={14} className="mr-1" />
+            <span>+8.2% vs last month</span>
           </div>
         </motion.div>
         
@@ -274,15 +197,16 @@ const DashboardHome = () => {
         >
           <div className="flex justify-between items-start">
             <div>
-              <h3 className="text-gray-400 text-sm font-medium">Content Generated</h3>
-              <p className="text-3xl font-bold mt-2">{statsData?.userStats?.totalGeneratedContent || 0}</p>
+              <h3 className="text-gray-400 text-sm font-medium">Conversion Rate</h3>
+              <p className="text-3xl font-bold mt-2">4.2%</p>
             </div>
             <div className="p-3 rounded-md bg-purple-500/10">
-              <FileText size={20} className="text-purple-400" />
+              <Award size={20} className="text-purple-400" />
             </div>
           </div>
-          <div className="mt-3 flex items-center text-gray-400 text-sm">
-            <span>AI-powered content</span>
+          <div className="mt-3 flex items-center text-green-400 text-sm">
+            <ArrowUpRight size={14} className="mr-1" />
+            <span>+0.5% vs last month</span>
           </div>
         </motion.div>
         
@@ -292,15 +216,15 @@ const DashboardHome = () => {
         >
           <div className="flex justify-between items-start">
             <div>
-              <h3 className="text-gray-400 text-sm font-medium">Member Since</h3>
-              <p className="text-xl font-bold mt-2">{formatMemberDate(statsData?.userStats?.memberSince)}</p>
+              <h3 className="text-gray-400 text-sm font-medium">AI Assists Used</h3>
+              <p className="text-3xl font-bold mt-2">52</p>
             </div>
             <div className="p-3 rounded-md bg-pink-500/10">
-              <Users size={20} className="text-pink-400" />
+              <Zap size={20} className="text-pink-400" />
             </div>
           </div>
           <div className="mt-3 flex items-center text-gray-400 text-sm">
-            <span>Premium account</span>
+            <span>24 remaining this month</span>
           </div>
         </motion.div>
       </div>
@@ -397,48 +321,40 @@ const DashboardHome = () => {
             </div>
           </div>
           
-          {/* Content Breakdown */}
-          {breakdownData?.userContentBreakdown?.contentTypeBreakdown?.length > 0 && (
-            <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
-              <h2 className="text-lg font-semibold mb-4 flex items-center">
-                <PieChart size={18} className="mr-2 text-blue-400" />
-                Content Breakdown
+          {/* To-Do List */}
+          <div className="bg-gray-900/60 border border-gray-800 rounded-xl overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-800 flex justify-between items-center">
+              <h2 className="text-lg font-semibold flex items-center">
+                <CheckCircle size={18} className="mr-2 text-green-400" />
+                Upcoming Tasks
               </h2>
-              
-              <div className="mt-3 space-y-3">
-                {breakdownData.userContentBreakdown.contentTypeBreakdown.map((item, index) => {
-                  // Calculate percentage
-                  const total = breakdownData.userContentBreakdown.contentTypeBreakdown.reduce(
-                    (sum, i) => sum + i.count, 0
-                  );
-                  const percentage = total > 0 ? Math.round((item.count / total) * 100) : 0;
-                  
-                  // Assign colors based on content type
-                  const colors = {
-                    full_listing: 'bg-purple-500',
-                    title: 'bg-blue-500',
-                    seo_tags: 'bg-green-500',
-                    description: 'bg-yellow-500',
-                    default: 'bg-gray-500'
-                  };
-                  
-                  const bgColor = colors[item.type] || colors.default;
-                  
-                  return (
-                    <div key={index}>
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="text-sm capitalize">{item.type.replace('_', ' ')}</span>
-                        <span className="text-sm text-gray-400">{item.count} ({percentage}%)</span>
-                      </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2.5">
-                        <div className={`${bgColor} h-2.5 rounded-full`} style={{ width: `${percentage}%` }}></div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+              <button className="text-sm text-purple-400 hover:text-purple-300">View All</button>
             </div>
-          )}
+            
+            <div className="divide-y divide-gray-800">
+              {upcomingTasks.map((task) => (
+                <div 
+                  key={task.id}
+                  className={`px-6 py-3 flex items-center justify-between ${task.completed ? 'opacity-60' : ''}`}
+                >
+                  <div className="flex items-center">
+                    <div className={`w-4 h-4 rounded-full mr-3 flex-shrink-0 ${
+                      task.completed ? 'bg-green-500/20 border-2 border-green-500' : 
+                      task.priority === 'High' ? 'bg-red-500/20 border-2 border-red-500' : 
+                      task.priority === 'Medium' ? 'bg-yellow-500/20 border-2 border-yellow-500' : 
+                      'bg-blue-500/20 border-2 border-blue-500'
+                    }`} />
+                    <span className={task.completed ? 'line-through text-gray-500' : ''}>
+                      {task.task}
+                    </span>
+                  </div>
+                  <div className="text-sm text-gray-500">
+                    {task.due}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
         
         {/* Right Column - Activity & Tips */}
@@ -454,41 +370,29 @@ const DashboardHome = () => {
             </div>
             
             <div className="p-4">
-              {activityLoading ? (
-                <div className="flex justify-center py-8">
-                  <Loader size={24} className="animate-spin text-purple-500" />
-                </div>
-              ) : activityData?.userActivity?.length > 0 ? (
-                <div className="relative">
-                  {activityData.userActivity.slice(0, 5).map((activity, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ 
-                        opacity: 1, 
-                        y: 0,
-                        transition: { delay: index * 0.1 }
-                      }}
-                      className="mb-4 last:mb-0"
-                    >
-                      <div className="relative pl-6 pb-4 border-l border-gray-800">
-                        <div className="absolute left-0 top-0 -translate-x-1/2 w-4 h-4 rounded-full bg-gray-900 border-2 border-gray-700 flex items-center justify-center">
-                          {getActivityIcon(activity.type)}
-                        </div>
-                        <div>
-                          <h4 className="font-medium">{activity.type.split('_').map(word => word.charAt(0) + word.slice(1).toLowerCase()).join(' ')}</h4>
-                          <p className="text-sm text-gray-400">{activity.description}</p>
-                          <p className="mt-1 text-xs text-gray-500">{formatActivityTime(activity.timestamp)}</p>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8 text-gray-500">
-                  <p>No activity recorded yet</p>
-                </div>
-              )}
+              {recentActivity.map((activity, index) => (
+                <motion.div
+                  key={activity.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ 
+                    opacity: 1, 
+                    y: 0,
+                    transition: { delay: index * 0.1 }
+                  }}
+                  className="mb-4 last:mb-0"
+                >
+                  <div className="relative pl-6 pb-4 border-l border-gray-800">
+                    <div className="absolute left-0 top-0 -translate-x-1/2 w-4 h-4 rounded-full bg-gray-900 border-2 border-gray-700 flex items-center justify-center">
+                      {activity.icon}
+                    </div>
+                    <div>
+                      <h4 className="font-medium">{activity.action}</h4>
+                      <p className="text-sm text-gray-400">{activity.description}</p>
+                      <p className="mt-1 text-xs text-gray-500">{activity.time}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
           
@@ -502,12 +406,12 @@ const DashboardHome = () => {
                 <Lightbulb size={20} />
               </div>
               <div>
-                <h3 className="font-medium text-lg mb-2">{tipOfTheDay.title}</h3>
+                <h3 className="font-medium text-lg mb-2">Tip of the Day</h3>
                 <p className="text-gray-400 mb-4">{tipOfTheDay.content}</p>
-                <Link to={tipOfTheDay.link} className="text-sm text-purple-400 hover:text-purple-300 flex items-center">
+                <a href={tipOfTheDay.link} className="text-sm text-purple-400 hover:text-purple-300 flex items-center">
                   Learn more
                   <ChevronRight size={16} className="ml-1" />
-                </Link>
+                </a>
               </div>
             </div>
           </motion.div>
@@ -517,7 +421,7 @@ const DashboardHome = () => {
             <div className="px-6 py-4 border-b border-gray-800">
               <h2 className="text-lg font-semibold flex items-center">
                 <Calendar size={18} className="mr-2 text-purple-400" />
-                Upcoming Events
+                Upcoming
               </h2>
             </div>
             

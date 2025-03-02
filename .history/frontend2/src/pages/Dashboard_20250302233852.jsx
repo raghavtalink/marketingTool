@@ -20,8 +20,6 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { gql } from '@apollo/client';
-import '../custom.css';
-
 
 
 // Import components for each feature

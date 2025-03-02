@@ -186,11 +186,6 @@ me: User
   imageEditorProject(id: ID!): ImageEditorProject
   campaigns: [SocialMediaCampaign!]!
   campaign(id: ID!): SocialMediaCampaign
-  userStats: UserStats!
-  userActivity(limit: Int): [UserActivity!]!
-  userContentBreakdown: ContentBreakdown!
-  scrapeProductData(url: String!): ScrapedProductData
-
 }
 
 enum MarketDemand {
@@ -319,6 +314,19 @@ type ScrapedProductData {
   category: String
 }
 
+extend type Query {
+  scrapeProductData(url: String!): ScrapedProductData
+}
+
+# Add to the existing Query type in schema.graphql
+type Query {
+  # Existing queries...
+  userStats: UserStats!
+  userActivity(limit: Int): [UserActivity!]!
+  userContentBreakdown: ContentBreakdown!
+}
+
+# New types to add to schema.graphql
 type UserStats {
   id: ID!
   email: String!

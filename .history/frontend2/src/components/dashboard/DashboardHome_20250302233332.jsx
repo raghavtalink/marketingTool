@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@apollo/client';
 import { gql } from '@apollo/client';
-import '../../custom.css';
-
 import { 
   TrendingUp, 
   Bell, 

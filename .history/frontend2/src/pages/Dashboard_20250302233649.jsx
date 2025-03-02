@@ -20,8 +20,6 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { gql } from '@apollo/client';
-import '../custom.css';
-
 
 
 // Import components for each feature
@@ -35,25 +33,11 @@ import BundleBuilder from '../components/dashboard/BundleBuilder';
  import AdCrafter from '../components/dashboard/AdCrafter';
  import DashboardHome from '../components/dashboard/DashboardHome';
 
-
- const GET_USER_STATS = gql`
-  query UserStats {
-    userStats {
-      id
-      email
-      username
-    }
-  }
-`;
-
 const Dashboard = () => {
   const navigate = useNavigate();
   const [activeFeature, setActiveFeature] = useState('home');
   const [sidebarOpen, setSidebarOpen] = useState(false); // Default closed on mobile
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
-
-  const { data: userData, loading: userLoading } = useQuery(GET_USER_STATS);
-
   
   // Hide Navbar when Dashboard is mounted
   useEffect(() => {
@@ -221,8 +205,8 @@ const Dashboard = () => {
                       <User size={24} />
                     </div>
                     <div className="ml-3">
-                      <p className="font-medium">{userLoading ? 'Loading...' : userData?.userStats?.username || 'User'}</p>
-                      <p className="text-sm text-gray-400">{userLoading ? '' : userData?.userStats?.email || ''}</p>
+                      <p className="font-medium">User Name</p>
+                      <p className="text-sm text-gray-400">user@example.com</p>
                     </div>
                   </div>
                 </div>
@@ -321,8 +305,8 @@ const Dashboard = () => {
                   <User size={20} />
                 </div>
                 <div className="ml-3">
-                  <p className="text-sm font-medium">{userLoading ? 'Loading...' : userData?.userStats?.username || 'User'}</p>
-                  <p className="text-xs text-gray-500">{userLoading ? '' : userData?.userStats?.email || ''}</p>
+                  <p className="text-sm font-medium">User Name</p>
+                  <p className="text-xs text-gray-500">user@example.com</p>
                 </div>
               </div>
               

@@ -319,6 +319,7 @@ type ScrapedProductData {
   category: String
 }
 
+# New types to add to schema.graphql
 type UserStats {
   id: ID!
   email: String!

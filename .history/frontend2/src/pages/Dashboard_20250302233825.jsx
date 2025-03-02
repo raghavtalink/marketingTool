@@ -20,8 +20,6 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { gql } from '@apollo/client';
-import '../custom.css';
-
 
 
 // Import components for each feature
@@ -51,9 +49,6 @@ const Dashboard = () => {
   const [activeFeature, setActiveFeature] = useState('home');
   const [sidebarOpen, setSidebarOpen] = useState(false); // Default closed on mobile
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
-
-  const { data: userData, loading: userLoading } = useQuery(GET_USER_STATS);
-
   
   // Hide Navbar when Dashboard is mounted
   useEffect(() => {
