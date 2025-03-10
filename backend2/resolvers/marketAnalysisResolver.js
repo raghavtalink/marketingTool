@@ -236,7 +236,11 @@ const marketAnalysisResolver = {
         generatedAt: new Date()
       });
 
-      return analysis;
+      return {
+        ...analysis.toObject(),
+        id: analysis._id,
+        productIds: analysis.productIds
+      };
     }
   }
 };

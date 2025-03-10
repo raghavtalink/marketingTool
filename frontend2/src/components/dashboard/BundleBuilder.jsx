@@ -29,7 +29,7 @@ const RECOMMEND_BUNDLES = gql`
   mutation RecommendBundles($input: BundleRecommendationInput!) {
     recommendBundles(input: $input) {
       id
-      productId
+      productIds
       analysisType
       content
       generatedAt
