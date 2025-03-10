@@ -231,16 +231,16 @@ type CompetitorData {
 
 type MarketAnalysis {
   id: ID!
-  productIds: [ID!]!
+  productId: String!
   analysisType: String!
   content: String!
   generatedAt: DateTime!
   competitors: [CompetitorData!]
   targetMargin: Float
-  marketDemand: String
-  season: Season!
-  targetAudience: String!
-  priceRange: PriceRange!
+  marketDemand: MarketDemand
+  season: Season
+  targetAudience: String
+  priceRange: PriceRange
 }
 
 input MarketTrendAnalysisInput {

@@ -231,7 +231,7 @@ type CompetitorData {
 
 type MarketAnalysis {
   id: ID!
-  productIds: [ID!]!
+  productIds: [ID!]!  # Changed from productId to productIds
   analysisType: String!
   content: String!
   generatedAt: DateTime!

@@ -238,7 +238,7 @@ const marketAnalysisResolver = {
 
       return {
         ...analysis.toObject(),
-        id: analysis._id,
+        id: analysis._id,  // Ensure ID is properly mapped
         productIds: analysis.productIds
       };
     }

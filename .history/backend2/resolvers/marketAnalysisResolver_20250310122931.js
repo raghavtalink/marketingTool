@@ -226,7 +226,7 @@ const marketAnalysisResolver = {
       const response = await callLlama3(prompt, webData);
 
       const analysis = await MarketAnalysis.create({
-        productIds: input.productIds,
+        productIds: input.productIds,  // Keep this as is
         userId: user.id,
         analysisType: 'bundle_recommendation',
         content: response,
@@ -238,8 +238,8 @@ const marketAnalysisResolver = {
 
       return {
         ...analysis.toObject(),
-        id: analysis._id,
-        productIds: analysis.productIds
+        id: analysis._id,  // Ensure ID is properly mapped
+        productIds: analysis.productIds  // Return productIds instead of productId
       };
     }
   }

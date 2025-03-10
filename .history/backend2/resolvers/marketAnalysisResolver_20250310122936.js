@@ -238,8 +238,8 @@ const marketAnalysisResolver = {
 
       return {
         ...analysis.toObject(),
-        id: analysis._id,
-        productIds: analysis.productIds
+        id: analysis._id,  // Ensure ID is properly mapped
+        productIds: analysis.productIds  // Return productIds instead of productId
       };
     }
   }

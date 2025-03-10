@@ -235,7 +235,7 @@ type MarketAnalysis {
   analysisType: String!
   content: String!
   generatedAt: DateTime!
-  competitors: [CompetitorData!]
+  competitors: [Competitor]
   targetMargin: Float
   marketDemand: String
   season: Season!
