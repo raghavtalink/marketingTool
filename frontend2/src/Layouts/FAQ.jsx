@@ -122,8 +122,8 @@ const FAQComponent = () => {
   
   return (
     <div className="bg-black-900 min-h-screen text-gray-100 p-6 relative">
-      {/* Animated Blob Background */}
-      <div className="fixed inset-0 z-0 overflow-hidden opacity-20">
+      
+      {/* <div className="fixed inset-0 z-0 overflow-hidden opacity-20">
         <BlobAnimation
           delay={0}
           className="absolute -top-40 -left-40 w-80 h-80 bg-purple-700 rounded-full mix-blend-multiply filter blur-3xl"
@@ -140,23 +140,23 @@ const FAQComponent = () => {
           delay={7.5}
           className="absolute top-40 right-40 w-60 h-60 bg-green-700 rounded-full mix-blend-multiply filter blur-3xl"
         />
-      </div>
+      </div> */}
       
       <div className="max-w-3xl mx-auto pt-10 pb-20 relative z-10">
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold mb-2">Frequently asked questions</h1>
           <p className="text-gray-400 mb-2">
-            These are the most commonly asked questions about Untitled UI.
+            These are the most commonly asked questions about Sellovate.
           </p>
           <p className="text-gray-400">
-            Can't find what you're looking for? <a href="#" className="text-blue-400 hover:text-blue-300">Chat to our friendly team!</a>
+            Can't find what you're looking for? <a href="/contact" className="text-blue-400 hover:text-blue-300">Chat to our friendly team!</a>
           </p>
         </div>
         
-        {/* Tabs */}
+        {/* Tabs */}  
         <div className="flex justify-center mb-8">
-          <div className="inline-flex bg-gray-800 rounded-full p-1">
+          {/* <div className="inline-flex bg-gray-800 rounded-full p-1">
             {tabs.map((tab) => (
               <button
                 key={tab}
@@ -168,7 +168,7 @@ const FAQComponent = () => {
                 {tab}
               </button>
             ))}
-          </div>
+          </div> */}
         </div>
         
         {/* FAQ Items */}

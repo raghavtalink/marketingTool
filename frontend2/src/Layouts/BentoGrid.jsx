@@ -1,4 +1,5 @@
   import React, { useEffect } from 'react';
+  import { useNavigate } from "react-router-dom";
   import { motion, useAnimation, useInView } from 'framer-motion';
 
   const BentoGrid = () => {
@@ -168,6 +169,7 @@
       const controls = useAnimation();
       const ref = React.useRef(null);
       const inView = useInView(ref, { once: true, amount: 0.1 });
+      const navigate = useNavigate();
       
       useEffect(() => {
         if (inView) {
@@ -201,8 +203,8 @@
                   <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
                 </svg>
               </motion.div>
-              <h2 className="text-2xl font-bold mb-2">Track engineering velocity</h2>
-              <p className="text-gray-400 font-mono">Gain insights into your development processes with comprehensive metrics and analytics.</p>
+              <h2 className="text-2xl font-bold mb-2">Listing Wizard</h2>
+              <p className="text-gray-400 font-mono">Generate high-converting titles, SEO keywords, and descriptions in seconds—crafted to make your product stand out on Amazon, Shopify, or any platform.</p>
             </div>
             <div className="absolute inset-0 bg-gradient-to-br from-gray-900/20 to-black pointer-events-none"></div>
           </motion.div>
@@ -226,11 +228,11 @@
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                   </svg>
                 </motion.div>
-                <h2 className="text-2xl font-bold mb-2">Your code is secure and private</h2>
-                <p className="text-gray-400 font-mono mt-4">We protect your intellectual property with our Enterprise-grade security.</p>
+                <h2 className="text-2xl font-bold mb-2">Bundle Builder</h2>
+                <p className="text-gray-400 font-mono mt-4">Boost sales by automatically suggesting product pairings customers love. Turn ‘maybe’ buyers into ‘add to cart’ fans.</p>
               </div>
               <div className="mt-auto pt-8">
-                <p className="text-gray-400 font-mono">Learn about our <span className="text-white underline">Privacy Guarantee</span>.</p>
+                <p className="text-gray-400 font-mono">Explore more features <span className="text-white underline cursor-pointer"  onClick={() => navigate("/features")}> Click Here</span>.</p>
               </div>
             </div>
             <div className="absolute inset-0 bg-gradient-to-br from-gray-900/20 to-black pointer-events-none"></div>
@@ -254,8 +256,8 @@
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                 </svg>
               </motion.div>
-              <h2 className="text-2xl font-bold mb-2">Built on top-tier AI</h2>
-              <p className="text-gray-400 font-mono">Leverage OpenAI, Anthropic, and other leading models directly in your workflow.</p>
+              <h2 className="text-2xl font-bold mb-2">Product Genius</h2>
+              <p className="text-gray-400 font-mono">Ask anything about your product! Get instant answers, improvement tips, and even predict customer questions—all powered by AI.</p>
             </div>
             <div className="absolute inset-0 bg-gradient-to-br from-gray-900/20 to-black pointer-events-none"></div>
           </motion.div>
@@ -279,8 +281,8 @@
                   <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                 </svg>
               </motion.div>
-              <h2 className="text-2xl font-bold mb-2">Streamlined team management</h2>
-              <p className="text-gray-400 font-mono">Enterprise-ready with SSO, SAML 2.0, and OIDC integration plus fine-grained access controls.</p>
+              <h2 className="text-2xl font-bold mb-2">Price Pilot</h2>
+              <p className="text-gray-400 font-mono">Never overprice or undersell again. AI compares competitors and demand trends to pick your perfect price.</p>
             </div>
             <div className="absolute inset-0 bg-gradient-to-br from-gray-900/20 to-black pointer-events-none"></div>
           </motion.div>
@@ -304,8 +306,8 @@
                   <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
               </motion.div>
-              <h2 className="text-2xl font-bold mb-2">Smart codebase context</h2>
-              <p className="text-gray-400 font-mono">Proprietary indexing technology to understand complex codebases for better assistance.</p>
+              <h2 className="text-2xl font-bold mb-2">Instant Studio</h2>
+              <p className="text-gray-400 font-mono">No camera? No problem. Turn basic photos into pro product images (with perfect lighting!) for social media or E-Commerce listings.</p>
             </div>
             <div className="absolute inset-0 bg-gradient-to-br from-gray-900/20 to-black pointer-events-none"></div>
           </motion.div>
