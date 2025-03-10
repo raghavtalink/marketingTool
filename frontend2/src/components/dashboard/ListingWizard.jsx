@@ -608,13 +608,6 @@ const ListingWizard = () => {
         color: 'from-purple-600/20 to-purple-800/20 border-purple-700/30'
       },
       {
-        id: 'product_description',
-        title: 'Product Description',
-        description: 'Write compelling product descriptions that convert',
-        icon: <FileText size={24} className="text-green-400" />,
-        color: 'from-green-600/20 to-green-800/20 border-green-700/30'
-      },
-      {
         id: 'full_listing',
         title: 'Full Listing',
         description: 'Generate a complete product listing with all elements',
