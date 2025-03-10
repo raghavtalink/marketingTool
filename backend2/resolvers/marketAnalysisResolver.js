@@ -97,6 +97,15 @@ const marketAnalysisResolver = {
         6. New market risks and challenges
         7. Fresh opportunities based on current data
 
+        Format your response in HTML using these guidelines:
+          - Use <h3> for section headings
+          - Use <ul> or <ol> for lists
+          - Use <p> for paragraphs
+          - Use <strong> for emphasis
+          - Use <br> for line breaks
+          - Use <div class="highlight"> for important information
+          Keep the HTML simple and semantic.
+
         Important: Base your analysis on current online data and recent market developments. 
         Include relevant statistics and data points from reliable sources.
       `;
@@ -218,6 +227,15 @@ const marketAnalysisResolver = {
         6. Target demographic insights from recent studies
         7. Seasonal timing recommendations
         8. Competitive bundle analysis
+
+        Format your response in HTML using these guidelines:
+          - Use <h3> for section headings
+          - Use <ul> or <ol> for lists
+          - Use <p> for paragraphs
+          - Use <strong> for emphasis
+          - Use <br> for line breaks
+          - Use <div class="highlight"> for important information
+          Keep the HTML simple and semantic.
 
         Important: Base recommendations on current market trends, consumer behavior data, 
         and successful bundle examples from the market. Include relevant statistics and benchmarks.
