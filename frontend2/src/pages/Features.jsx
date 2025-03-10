@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import Footer from '../components/Footer';
 
 const FeaturesPage = () => {
   // State for active feature
@@ -401,6 +402,7 @@ const FeaturesPage = () => {
           <FeatureItem key={feature.id} feature={feature} index={index} />
         ))}
       </motion.div>
+      <Footer/>
     </div>
   );
 };
