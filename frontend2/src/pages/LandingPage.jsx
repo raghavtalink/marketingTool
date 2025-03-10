@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import bgImage from "../assets/bgImage.png";
 import BentoGrid from "../Layouts/BentoGrid";
 import FAQComponent from "../Layouts/FAQ";
+import Footer from "../components/Footer";
 
 export default function HeroSection() {
   return (
@@ -95,6 +96,8 @@ export default function HeroSection() {
       <BentoGrid />
 
       <FAQComponent />
+
+      <Footer/>
     </>
   );
 }

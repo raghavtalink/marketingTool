@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import Footer from '../components/Footer';
 
 const PricingTable = () => {
   const [isYearly, setIsYearly] = useState(true);
@@ -238,6 +239,7 @@ const PricingTable = () => {
           </motion.span>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };
