@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion, useAnimation, useScroll } from 'framer-motion';
+import { useNavigate } from "react-router-dom";
 import Footer from '../components/Footer';
 
 
@@ -24,6 +25,7 @@ const BlobAnimation = ({ delay = 0, className }) => {
 };
 
 const AboutPage = () => {
+  const navigate = useNavigate();
   const { scrollYProgress } = useScroll();
   const controls = useAnimation();
   
@@ -610,7 +612,7 @@ const AboutPage = () => {
                 whileTap={{ scale: 0.95 }}
                 className="inline-block"
               >
-                <button className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-full font-medium text-lg shadow-xl shadow-indigo-600/20 hover:shadow-indigo-600/40 transition-all duration-300">
+                <button  onClick={() => navigate("/login")} className=" cursor-pointer bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-full font-medium text-lg shadow-xl shadow-indigo-600/20 hover:shadow-indigo-600/40 transition-all duration-300">
                   Get Started Now →
                 </button>
               </motion.div>
@@ -619,7 +621,7 @@ const AboutPage = () => {
         </div>
       </motion.section>
 
-      {/* Footer */}
+      
       <Footer/>
     </div>
   );

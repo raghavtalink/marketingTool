@@ -5,6 +5,7 @@ import bgImage from "../assets/bgImage.png";
 import BentoGrid from "../Layouts/BentoGrid";
 import FAQComponent from "../Layouts/FAQ";
 import Footer from "../components/Footer";
+import ChatBot from "../components/ChatBot";
 
 export default function HeroSection() {
 
@@ -103,7 +104,7 @@ export default function HeroSection() {
       <BentoGrid />
 
       <FAQComponent />
-
+       <ChatBot/>
       <Footer />
     </>
   );
