@@ -7,6 +7,7 @@ const cors = require('cors');
 const { json } = require('body-parser');
 const mongoose = require('mongoose');
 const { getUserFromToken } = require('./utils/auth');
+const { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginLandingPageGraphQLPlayground } = require('@apollo/server/plugin/landingPage/default');
 
 let isStarting = false;
 
@@ -37,7 +38,11 @@ async function startServer() {
       'https://sellovate.onrender.com',
       'https://sellovate.onrender.com/',
       'http://localhost:5173',
-      'https://stagingbackend.onrender.com/graphql'
+      'https://stagingbackend.onrender.com/graphql',
+      'http://103.40.60.96:4001/graphql',
+      'http://103.40.60.96:4001',
+      'http://103.40.60.96:4001'
+
     ],
     credentials: true,
   };
@@ -63,7 +68,18 @@ async function startServer() {
     const server = new ApolloServer({
       typeDefs,
       resolvers,
-      introspection: true,  // Explicitly enable introspection
+      introspection: true,  // Force enable introspection
+      playground: true,     // Force enable playground
+      plugins: [
+        ApolloServerPluginLandingPageLocalDefault({
+          embed: true,
+          includeCookies: true,
+        })
+      ],
+      formatError: (error) => {
+        console.error('GraphQL Error:', error);
+        return error;
+      },
       includeStacktraceInErrorResponses: true,  // Helpful for debugging
       csrfPrevention: true,
       cache: 'bounded',
