@@ -1,11 +1,16 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import bgImage from "../assets/bgImage.png";
 import BentoGrid from "../Layouts/BentoGrid";
 import FAQComponent from "../Layouts/FAQ";
 import Footer from "../components/Footer";
+import ChatBot from "../components/ChatBot";
 
 export default function HeroSection() {
+
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="bg-black h-screen px-10">
@@ -17,28 +22,28 @@ export default function HeroSection() {
             backgroundPosition: "center",
           }}
         >
-          <motion.div 
+          <motion.div
             className="absolute inset-0 bg-gradient-to-tl from-black/60 via-black/50 to-black/60"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.2 }}
           ></motion.div>
 
-          <motion.div 
+          <motion.div
             className="relative max-w-3xl"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
             <div className="p-8">
-              <motion.h1 
+              <motion.h1
                 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-white to-gray-400 text-transparent bg-clip-text"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
               >
                 Welcome to{" "}
-                <motion.span 
+                <motion.span
                   className="bg-gradient-to-r from-white to-gray-400 text-transparent bg-clip-text"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -48,7 +53,7 @@ export default function HeroSection() {
                 </motion.span>
               </motion.h1>
 
-              <motion.p 
+              <motion.p
                 className="text-lg text-gray-300 mt-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -57,7 +62,7 @@ export default function HeroSection() {
                 Revolutionize Your E-commerce Journey with AI-Powered Solutions
               </motion.p>
 
-              <motion.p 
+              <motion.p
                 className="text-gray-300 mt-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -68,23 +73,26 @@ export default function HeroSection() {
                 before.
               </motion.p>
 
-              <motion.div 
-                className="mt-6 flex justify-center space-x-4"
+              <motion.div
+                className="mt-6 flex justify-center space-x-4 "
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 1.4 }}
               >
-                <motion.button 
+                <motion.button
                   className="px-6 py-3 bg-white text-black font-semibold rounded-md hover:bg-gray-200 transition"
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.05 ,cursor: "pointer" }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => navigate("/register")}
                 >
                   Get Started Free
                 </motion.button>
-                <motion.button 
-                  className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-md hover:bg-gray-700 transition"
-                  whileHover={{ scale: 1.05 }}
+
+                <motion.button
+                  className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-md hover:bg-gray-700 transition cursor-pointer"
+                  whileHover={{ scale: 1.05,cursor: "pointer" }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => navigate("/contact")}
                 >
                   Get in Touch
                 </motion.button>
@@ -96,8 +104,8 @@ export default function HeroSection() {
       <BentoGrid />
 
       <FAQComponent />
-
-      <Footer/>
+       <ChatBot/>
+      <Footer />
     </>
   );
 }
