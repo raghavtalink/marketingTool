@@ -40,7 +40,21 @@ export default function Navbar() {
       >
         <nav className="container mx-auto flex items-center justify-between w-full">
           <div className="flex items-center">
-            <span onClick={()=>navigate("/")} className="text-xl font-bold cursor-pointer">SELLOVATE</span>
+            <span 
+  onClick={() => navigate("/")} 
+  className="text-xl font-bold cursor-pointer"
+  style={{
+    fontFamily: "'Leckerli One', cursive"
+  }}
+>
+  SELLOVATE
+</span>
+
+<style>
+  {`
+    @import url('https://fonts.googleapis.com/css2?family=Leckerli+One&display=swap');
+  `}
+</style>
           </div>
 
           <ul className="hidden lg:flex space-x-8 text-md font-semibold">
