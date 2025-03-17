@@ -37,7 +37,9 @@ async function startServer() {
       'https://sellovate.onrender.com',
       'https://sellovate.onrender.com/',
       'http://localhost:5173',
-      'https://stagingbackend.onrender.com/graphql'
+      'https://stagingbackend.onrender.com/graphql',
+      'https://sellovate.zone.id/graphql',
+      'https://sellovate.zone.id/'
     ],
     credentials: true,
   };

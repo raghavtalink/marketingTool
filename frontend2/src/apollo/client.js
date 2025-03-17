@@ -4,11 +4,11 @@ import { onError } from '@apollo/client/link/error';
 
 // Create an http link
 const httpLink = createHttpLink({
-  uri: 'http://103.40.60.96:4001/graphql',
+  uri: 'https://sellovate.zone.id/graphql',
   credentials: 'include',
   headers: {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': 'http://103.40.60.96:4001/graphql',
+    'Access-Control-Allow-Origin': 'https://sellovate.zone.id/graphql',
   }
 });
 

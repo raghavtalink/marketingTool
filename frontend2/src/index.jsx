@@ -7,7 +7,7 @@ import './index.css';
 
 // Create an HTTP link to the GraphQL API
 const httpLink = createHttpLink({
-  uri: 'http://103.40.60.96:4001/graphql',
+  uri: 'https://sellovate.zone.id/graphql',
   credentials: 'include'
 });
 
