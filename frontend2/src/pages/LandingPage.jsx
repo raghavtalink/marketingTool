@@ -104,7 +104,7 @@ export default function HeroSection() {
       <BentoGrid />
 
       <FAQComponent />
-       <ChatBot/>
+       {/* <ChatBot/> */}
       <Footer />
     </>
   );
