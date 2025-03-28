@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import emailjs from "@emailjs/browser";
 import Footer from '../components/Footer';
 
 // Blob Animation Component
@@ -32,7 +33,7 @@ const ContactForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [name]: value.trim() });
   };
 
   const nextStep = () => {
@@ -42,6 +43,27 @@ const ContactForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Here you would typically send the form data to your backend
+    if (!formData.email || !formData.message) return;
+
+    const templateParams = {
+      user_name: formData.name,
+      user_email: formData.email,
+      user_message: formData.message,
+    };
+    emailjs
+    .send("service_jf5j8sl", "template_5ulkt9v", templateParams, "lmWXYkUl7xjWuief_nT5L")
+    .then(
+      (response) => {
+        console.log("✅ Email sent:", response);
+        alert("Email sent successfully!");
+        setFormData({ name: "", email: "", message: "" }); // Reset form
+        setStep(3);
+      },
+      (error) => {
+        console.error("Email send error:", error);
+        alert("Failed to send email.");
+      }
+    );
     console.log('Form submitted:', formData);
     nextStep();
   };
