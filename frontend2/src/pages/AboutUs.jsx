@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion, useAnimation, useScroll } from 'framer-motion';
+import productImage from "../assets/products.png";
 import { useNavigate } from "react-router-dom";
 import Footer from '../components/Footer';
 
@@ -22,6 +23,13 @@ const BlobAnimation = ({ delay = 0, className }) => {
       }}
     />
   );
+};
+
+const scrollToBottom = () => {
+  window.scrollTo({
+    top: document.body.scrollHeight,
+    behavior: "smooth",
+  });
 };
 
 const AboutPage = () => {
@@ -229,7 +237,10 @@ const AboutPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.8 }}
           >
-            <button className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-3 rounded-full font-medium text-lg hover:from-indigo-700 hover:to-purple-700 transition duration-300 shadow-lg hover:shadow-indigo-500/30">
+            <button
+            onClick={scrollToBottom}
+             className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-3 rounded-full font-medium text-lg hover:from-indigo-700 hover:to-purple-700 transition duration-300 shadow-lg hover:shadow-indigo-500/30">
+              
               Get Started Now
             </button>
           </motion.div>
@@ -282,20 +293,18 @@ const AboutPage = () => {
               variants={fadeInScale}
               className="order-1 md:order-2 relative"
             >
-              <div className="relative rounded-lg overflow-hidden shadow-2xl bg-gradient-to-br from-purple-900/20 to-indigo-900/20 backdrop-blur-sm">
-                <div className="aspect-w-4 aspect-h-3 bg-gray-800/50">
+              <div className="relative rounded-lg overflow-hidden shadow-2xl  ">
+                <div className="aspect-w-4 aspect-h-3">
                   {/* Image placeholder */}
                   <div className="w-full h-full flex items-center justify-center">
-                    <div className="w-full h-full bg-gray-700/50 flex items-center justify-center text-gray-500">
-                      <span className="text-lg">Product Image</span>
+                    <div className="w-full h-full flex items-center justify-center ">
+                    <img src={productImage} alt="Product" className="w-100 h-120" />
                     </div>
                   </div>
                 </div>
                 <motion.div
-                  className="absolute -inset-0.5 rounded-lg blur opacity-30 bg-gradient-to-r from-purple-600 to-blue-600 z-0"
-                  animate={{ 
-                    opacity: [0.2, 0.4, 0.2],
-                  }}
+                  className="absolute -inset-0.5 "
+                 
                   transition={{ 
                     duration: 3,
                     repeat: Infinity,
@@ -437,17 +446,17 @@ const AboutPage = () => {
                   content: "You come across Sellovate and decide to give it a shot. No complicated setup, no integrations—just enter your product details, and let the AI work its magic."
                 },
                 {
-                  step: "5️⃣",
+                  step: "3️⃣",
                   title: "Get AI-Powered Insights—Anytime",
                   content: "Questions about your sales performance? Our AI Product Guru provides real-time insights, competitor analysis, and expert AI suggestions so you can make informed decisions—just like having a sales coach in your pocket."
                 },
                 {
-                  step: "7️⃣",
+                  step: "4️⃣",
                   title: "Generate Studio-Quality Product Images",
                   content: "No professional photographer? No problem! Our AI Studio Creator transforms your product images into studio-quality visuals, helping your listings look polished and professional—without the hefty price tag."
                 },
                 {
-                  step: "🔟",
+                  step: "5️⃣",
                   title: "The Breakthrough Moment",
                   content: "With Sellovate working behind the scenes, your product finally gets noticed, clicks turn into sales, and your business starts growing like never before."
                 }
@@ -459,12 +468,7 @@ const AboutPage = () => {
                 >
                   <div className={`md:col-span-4 ${index % 2 === 0 ? 'md:order-1' : 'md:order-3'}`}>
                     <div className="bg-gray-800/40 rounded-xl overflow-hidden shadow-2xl relative group">
-                      <div className="aspect-w-16 aspect-h-9 bg-gray-700/40">
-                        {/* Image placeholder */}
-                        <div className="w-full h-full flex items-center justify-center text-gray-500">
-                          <span className="text-lg">Step {item.step} Visualization</span>
-                        </div>
-                      </div>
+                      
                       <motion.div
                         className="absolute -inset-0.5 rounded-xl blur opacity-30 bg-gradient-to-r from-purple-600 to-blue-600 z-0 transition-opacity duration-300"
                         animate={{ 
