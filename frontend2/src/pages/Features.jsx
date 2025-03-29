@@ -1,10 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import Footer from '../components/Footer';
 
 const FeaturesPage = () => {
   // State for active feature
   const [activeFeature, setActiveFeature] = useState(null);
+  // State for modal
+  const [modalFeature, setModalFeature] = useState(null);
   
   // Ref for the container
   const containerRef = useRef(null);
@@ -128,6 +130,212 @@ const FeaturesPage = () => {
     }
   };
   
+  // Modal component
+  const FeatureModal = ({ feature, onClose }) => {
+    // Ref for detecting clicks outside the modal content
+    const modalContentRef = useRef(null);
+    
+    // Close if clicking outside content area
+    const handleBackdropClick = (e) => {
+      if (modalContentRef.current && !modalContentRef.current.contains(e.target)) {
+        onClose();
+      }
+    };
+    
+    // Handle escape key press
+    useEffect(() => {
+      const handleEscKey = (e) => {
+        if (e.key === 'Escape') onClose();
+      };
+      window.addEventListener('keydown', handleEscKey);
+      return () => window.removeEventListener('keydown', handleEscKey);
+    }, [onClose]);
+    
+    return (
+      <motion.div 
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-70 backdrop-blur-sm overflow-y-auto"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={handleBackdropClick}
+      >
+        <motion.div
+          ref={modalContentRef}
+          className={`relative max-w-4xl w-full overflow-hidden rounded-2xl bg-gray-800 bg-opacity-90 border border-gray-700 shadow-xl`}
+          initial={{ scale: 0.9, y: 50, opacity: 0 }}
+          animate={{ scale: 1, y: 0, opacity: 1 }}
+          exit={{ scale: 0.9, y: 50, opacity: 0 }}
+          transition={{ type: "spring", damping: 25, stiffness: 300 }}
+        >
+          {/* Glow effect */}
+          <motion.div
+            className={`absolute inset-0 bg-gradient-to-r ${feature.color} rounded-2xl blur-xl opacity-25 -z-10`}
+            animate={{ 
+              opacity: [0.2, 0.4, 0.2],
+              scale: [0.95, 1.05, 0.95],
+            }}
+            transition={{ repeat: Infinity, duration: 5 }}
+          />
+          
+          {/* Header */}
+          <div className={`relative overflow-hidden h-40 bg-gradient-to-r ${feature.color}`}>
+            {/* Animated particle effects */}
+            <div className="absolute inset-0">
+              {Array.from({ length: 20 }).map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-1 h-1 bg-white rounded-full opacity-70"
+                  initial={{ 
+                    x: Math.random() * 100 + '%', 
+                    y: Math.random() * 100 + '%',
+                    opacity: Math.random() * 0.5 + 0.2,
+                    scale: Math.random() * 0.5 + 0.5
+                  }}
+                  animate={{ 
+                    y: [null, Math.random() * -20 - 10, null],
+                    opacity: [null, Math.random() * 0.7 + 0.3, null],
+                    scale: [null, Math.random() * 1 + 1, null]
+                  }}
+                  transition={{ 
+                    repeat: Infinity, 
+                    duration: Math.random() * 3 + 2,
+                    repeatType: "reverse" 
+                  }}
+                />
+              ))}
+            </div>
+            
+            {/* Header content */}
+            <div className="relative z-10 flex items-center justify-between p-6 h-full">
+              <div className="flex items-center space-x-4">
+                <div className={`p-3 rounded-full bg-gray-900 bg-opacity-50`}>
+                  {feature.icon}
+                </div>
+                <h3 className="text-3xl font-bold text-white">{feature.title}</h3>
+              </div>
+              
+              <motion.button
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={onClose}
+                className="text-white p-2 rounded-full hover:bg-gray-900 hover:bg-opacity-50"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </motion.button>
+            </div>
+          </div>
+          
+          {/* Modal body */}
+          <div className="p-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Main content */}
+              <div className="md:col-span-2 space-y-6">
+                <motion.p 
+                  className="text-lg text-gray-300 leading-relaxed"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  {feature.description}
+                </motion.p>
+                
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <h4 className="font-bold text-xl text-white mb-3">Why it matters</h4>
+                  <p className="text-gray-300">
+                    Empower your workflow with our {feature.title.toLowerCase()} tools designed specifically for modern teams.
+                    This powerful feature suite integrates seamlessly with your existing processes, providing immediate value
+                    while scaling with your needs.
+                  </p>
+                </motion.div>
+                
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="mt-4"
+                >
+                  <h4 className="font-bold text-xl text-white mb-3">Key capabilities</h4>
+                  <ul className="space-y-2 text-gray-300">
+                    <li className="flex items-center">
+                      <svg className={`h-5 w-5 mr-2 text-${feature.color.split('-')[1]}-500`} fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Advanced configuration options to match your specific requirements
+                    </li>
+                    <li className="flex items-center">
+                      <svg className={`h-5 w-5 mr-2 text-${feature.color.split('-')[1]}-500`} fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Seamless integration with all major platforms and services
+                    </li>
+                    <li className="flex items-center">
+                      <svg className={`h-5 w-5 mr-2 text-${feature.color.split('-')[1]}-500`} fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Real-time performance monitoring and analytics
+                    </li>
+                  </ul>
+                </motion.div>
+              </div>
+              
+              {/* Feature image/video sidebar */}
+              <motion.div 
+                className="relative rounded-xl overflow-hidden shadow-2xl"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5 }}
+              >
+                <div className={`absolute inset-0 bg-gradient-to-r ${feature.color} opacity-70`} />
+                
+                <img 
+                  src={feature.videoUrl} 
+                  alt={`${feature.title} showcase`} 
+                  className="w-full h-full object-cover mix-blend-overlay"
+                />
+                
+                {/* Interactive element indicators */}
+                <motion.div 
+                  className="absolute bottom-4 right-4 flex items-center space-x-2"
+                  animate={{ opacity: [0.6, 1, 0.6] }}
+                  transition={{ repeat: Infinity, duration: 2 }}
+                >
+                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                  <p className="text-white text-xs font-medium">Interactive Demo</p>
+                </motion.div>
+              </motion.div>
+            </div>
+            
+            {/* Call to action */}
+            <motion.div 
+              className="mt-8 border-t border-gray-700 pt-6 flex flex-wrap justify-between items-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+            >
+              <p className="text-gray-400 mb-4 md:mb-0">Ready to transform your workflow?</p>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`inline-flex items-center px-6 py-3 rounded-full text-base font-medium text-white bg-gradient-to-r ${feature.color} shadow-lg`}
+              >
+                Get Started
+                <svg className="ml-2 -mr-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </motion.button>
+            </motion.div>
+          </div>
+        </motion.div>
+      </motion.div>
+    );
+  };
+  
   const FeatureItem = ({ feature, index }) => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: false, amount: 0.3 });
@@ -242,6 +450,7 @@ const FeaturesPage = () => {
               whileTap={{ scale: 0.95 }}
               onMouseEnter={() => setActiveFeature(feature.id)}
               onMouseLeave={() => setActiveFeature(null)}
+              onClick={() => setModalFeature(feature)}
               className={`mt-4 inline-flex items-center px-6 py-3 rounded-full 
                       text-base font-medium text-white bg-gradient-to-r ${feature.color}
                       shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900`}
@@ -402,6 +611,15 @@ const FeaturesPage = () => {
           <FeatureItem key={feature.id} feature={feature} index={index} />
         ))}
       </motion.div>
+      
+      {/* Modal Portal */}
+      {modalFeature && (
+        <FeatureModal 
+          feature={modalFeature} 
+          onClose={() => setModalFeature(null)} 
+        />
+      )}
+      
       <Footer/>
     </div>
   );
