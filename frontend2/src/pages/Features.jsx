@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import test1 from '../assets/test1.gif'
 import Footer from '../components/Footer';
 import { 
   Home, 
@@ -40,7 +41,7 @@ const FeaturesPage = () => {
       id: 1,
       title: "Listing Wizard",
       description: "Our AI-powered content generator learns your style over time, making your listing creation smoother and more efficient.",
-      videoUrl: "/api/placeholder/320/180",
+      videoUrl: {test1},
       color: "from-purple-500 to-indigo-600",
       category: "content",
       icon: <Package size={30} />,
@@ -333,7 +334,7 @@ const FeaturesPage = () => {
               >
                 <div className={`absolute inset-0 bg-gradient-to-r ${feature.color} opacity-70`} />
                 
-                <img 
+                <video
                   src={feature.videoUrl} 
                   alt={`${feature.title} showcase`} 
                   className="w-full h-full object-cover mix-blend-overlay"
@@ -488,8 +489,8 @@ const FeaturesPage = () => {
             <motion.button 
               whileHover={{ scale: 1.05, y: -5 }}
               whileTap={{ scale: 0.95 }}
-              onMouseEnter={() => setActiveFeature(feature.id)}
-              onMouseLeave={() => setActiveFeature(null)}
+              // onMouseEnter={() => setActiveFeature(feature.id)}
+              // onMouseLeave={() => setActiveFeature(null)}
               onClick={() => setModalFeature(feature)}
               className={`mt-4 inline-flex items-center px-6 py-3 rounded-full 
                       text-base font-medium text-white bg-gradient-to-r ${feature.color}
