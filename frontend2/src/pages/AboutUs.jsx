@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion, useAnimation, useScroll } from 'framer-motion';
-import productImage from "../assets/products.png";
+
 import { useNavigate } from "react-router-dom";
 import Footer from '../components/Footer';
 
@@ -298,7 +298,8 @@ const AboutPage = () => {
                   {/* Image placeholder */}
                   <div className="w-full h-full flex items-center justify-center">
                     <div className="w-full h-full flex items-center justify-center ">
-                    <img src={productImage} alt="Product" className="w-100 h-120" />
+                    <img src="https://i.postimg.cc/TwNxB69c/fun-3d-cartoon-teenage-boy.png" alt="Product" className="w-100 h-120" />
+
                     </div>
                   </div>
                 </div>
