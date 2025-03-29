@@ -1,6 +1,23 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import Footer from '../components/Footer';
+import { 
+  Home, 
+  Package, 
+  Box, 
+  Lightbulb, 
+  DollarSign, 
+  Camera, 
+  TrendingUp, 
+  Megaphone,
+  Menu,
+  X,
+  User,
+  LogOut,
+  Settings,
+  ChevronRight,
+  ShoppingBag
+} from 'lucide-react';
 
 const FeaturesPage = () => {
   // State for active feature
@@ -21,88 +38,123 @@ const FeaturesPage = () => {
   const features = [
     {
       id: 1,
-      title: "Smart Automation",
-      description: "Our AI-powered automation learns your preferences over time, making your workflow smoother and more efficient.",
+      title: "Listing Wizard",
+      description: "Our AI-powered content generator learns your style over time, making your listing creation smoother and more efficient.",
       videoUrl: "/api/placeholder/320/180",
       color: "from-purple-500 to-indigo-600",
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-        </svg>
-      )
+      category: "content",
+      icon: <Package size={30} />,
+      why: "Empower your e-commerce journey with smart, SEO-optimized listing content designed for online sellers. This tool integrates seamlessly with your workflow, providing immediate value as you grow.",
+      capabilities: [
+        "Generates compelling, SEO-rich product titles, descriptions & keywords",
+        "Optimizes listings for better search rankings and visibility",
+        "Adapts to different e-commerce platforms (Amazon, Shopify, Etsy, etc.)",
+        "Ensures brand consistency across all listings"
+      ],
+      cta: "Ready to transform your product listings?"
     },
     {
       id: 2,
-      title: "Cross-Platform Sync",
-      description: "Seamlessly sync your data across all your devices with real-time updates and conflict resolution.",
+      title: "Bundle Builder",
+      description: "Our AI-powered product combo analyzer suggests high-converting product combinations, increasing your sales potential.",
       videoUrl: "/api/placeholder/320/180",
       color: "from-blue-500 to-cyan-600",
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-        </svg>
-      )
+      category: "sales",
+      icon: <Box size={30} />,
+      why: "Boost your revenue by offering the right product bundles. Our AI analyzes buying patterns and market demand to suggest profitable product pairings that customers love.",
+      capabilities: [
+        "Analyzes sales data to recommend best-selling product combos",
+        "Identifies cross-sell & up-sell opportunities",
+        "Provides data-backed pricing suggestions for bundles",
+        "Helps create attractive, high-value offers for customers"
+      ],
+      cta: "Ready to transform your product bundling strategy?"
     },
     {
       id: 3,
-      title: "Advanced Analytics",
-      description: "Gain deep insights with our comprehensive analytics dashboard, featuring customizable reports and visualizations.",
+      title: "Product Genius",
+      description: "Our AI-driven chatbot understands your products deeply, offering real-time insights and recommendations.",
       videoUrl: "/api/placeholder/320/180",
       color: "from-emerald-500 to-teal-600",
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-        </svg>
-      )
+      category: "insights",
+      icon: <Lightbulb size={30} />,
+      why: "Enhance product knowledge with an AI chatbot that delivers instant analysis, competitive insights, and suggestions to optimize your product listings.",
+      capabilities: [
+        "Answers product-related queries instantly",
+        "Analyzes product strengths and areas for improvement",
+        "Suggests ways to make your listing more appealing",
+        "Provides AI-powered competitor comparisons"
+      ],
+      cta: "Ready to get AI-powered product insights?"
     },
     {
       id: 4,
-      title: "Collaborative Workspace",
-      description: "Work together in real-time with your team members, with intuitive sharing and permission controls.",
+      title: "Price Pilot",
+      description: "Our AI-powered pricing tool dynamically adjusts product prices for maximum profitability and competitiveness.",
       videoUrl: "/api/placeholder/320/180",
       color: "from-amber-500 to-orange-600",
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-        </svg>
-      )
+      category: "pricing",
+      icon: <DollarSign size={30} />,
+      why: "Stop guessing and start pricing smartly. Our AI evaluates market trends, competition, and demand to recommend the best pricing strategies for your products.",
+      capabilities: [
+        "Dynamic pricing suggestions based on competitor analysis",
+        "Helps set profitable price points for new & existing products",
+        "Tracks pricing trends in real time",
+        "Provides discount and promotional pricing recommendations"
+      ],
+      cta: "Ready to optimize your pricing strategy?"
     },
     {
       id: 5,
-      title: "Enterprise-Grade Security",
-      description: "Rest easy knowing your data is protected with end-to-end encryption and compliance with industry standards.",
+      title: "Instant Studio",
+      description: "Our AI-powered image creation tool generates stunning, studio-quality product images in seconds.",
       videoUrl: "/api/placeholder/320/180",
       color: "from-red-500 to-rose-600",
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-        </svg>
-      )
+      category: "media",
+      icon: <Camera size={30} />,
+      why: "Create eye-catching, professional images without the need for a photoshoot. AI-enhanced visuals drive more clicks, conversions, and customer trust.",
+      capabilities: [
+        "Generates high-quality, realistic product images",
+        "Removes backgrounds and enhances image clarity",
+        "Offers pre-set templates for quick editing",
+        "Supports branding with custom colors, fonts, and overlays"
+      ],
+      cta: "Ready to level up your product visuals?"
     },
     {
       id: 6,
-      title: "Custom Integration",
-      description: "Connect with your favorite tools and services through our extensive API and integration marketplace.",
+      title: "TrendSpot",
+      description: "Our AI-powered market trends tool provides deep insights into product demand and competitor movements.",
       videoUrl: "/api/placeholder/320/180",
       color: "from-violet-500 to-purple-600",
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
-        </svg>
-      )
+      category: "insights",
+      icon: <TrendingUp size={30} />,
+      why: "Stay ahead of the competition by tracking emerging trends, pricing fluctuations, and high-demand products in real time.",
+      capabilities: [
+        "Monitors trending products and categories",
+        "Provides competitor pricing and performance insights",
+        "Predicts demand shifts based on AI analysis",
+        "Helps discover new product opportunities"
+      ],
+      cta: "Ready to dominate your market?"
     },
     {
       id: 7,
-      title: "24/7 Premium Support",
-      description: "Get help whenever you need it with our dedicated support team, available around the clock.",
+      title: "Ad Crafter",
+      description: "Our AI-powered campaign designer creates high-impact, targeted ad campaigns for social media and e-commerce platforms.",
       videoUrl: "/api/placeholder/320/180",
       color: "from-pink-500 to-fuchsia-600",
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-      )
-    },
+      category: "marketing",
+      icon: <Megaphone size={30} />,
+      why: "Simplify your marketing with AI-driven ad creation. Get automated ad copy, creatives, and targeting suggestions to maximize your ROI.",
+      capabilities: [
+        "Generates ad copy optimized for conversions",
+        "Suggests the best-performing keywords & hashtags",
+        "Designs social media creatives and ad banners",
+        "Optimizes ad budgets with AI-driven performance tracking"
+      ],
+      cta: "Ready to supercharge your marketing campaigns?"
+    }
   ];
   
   // Animation variants for Framer Motion
@@ -248,9 +300,7 @@ const FeaturesPage = () => {
                 >
                   <h4 className="font-bold text-xl text-white mb-3">Why it matters</h4>
                   <p className="text-gray-300">
-                    Empower your workflow with our {feature.title.toLowerCase()} tools designed specifically for modern teams.
-                    This powerful feature suite integrates seamlessly with your existing processes, providing immediate value
-                    while scaling with your needs.
+                    {feature.why}
                   </p>
                 </motion.div>
                 
@@ -262,24 +312,14 @@ const FeaturesPage = () => {
                 >
                   <h4 className="font-bold text-xl text-white mb-3">Key capabilities</h4>
                   <ul className="space-y-2 text-gray-300">
-                    <li className="flex items-center">
-                      <svg className={`h-5 w-5 mr-2 text-${feature.color.split('-')[1]}-500`} fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      Advanced configuration options to match your specific requirements
-                    </li>
-                    <li className="flex items-center">
-                      <svg className={`h-5 w-5 mr-2 text-${feature.color.split('-')[1]}-500`} fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      Seamless integration with all major platforms and services
-                    </li>
-                    <li className="flex items-center">
-                      <svg className={`h-5 w-5 mr-2 text-${feature.color.split('-')[1]}-500`} fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      Real-time performance monitoring and analytics
-                    </li>
+                    {feature.capabilities.map((capability, index) => (
+                      <li key={index} className="flex items-center">
+                        <svg className={`h-5 w-5 mr-2 text-${feature.color.split('-')[1]}-500`} fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                        {capability}
+                      </li>
+                    ))}
                   </ul>
                 </motion.div>
               </div>
@@ -318,7 +358,7 @@ const FeaturesPage = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
             >
-              <p className="text-gray-400 mb-4 md:mb-0">Ready to transform your workflow?</p>
+              <p className="text-gray-400 mb-4 md:mb-0">{feature.cta}</p>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
