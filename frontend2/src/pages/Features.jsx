@@ -1035,6 +1035,57 @@ const InstantStudioDemo = ({ colorClass }) => {
   const [currentEffect, setCurrentEffect] = useState("original");
   const [bgRemoved, setBgRemoved] = useState(false);
   const [processing, setProcessing] = useState(false);
+  const [productView, setProductView] = useState("front");
+  
+  // More realistic product images using SVG
+  const products = {
+    headphones: {
+      front: (
+        <svg viewBox="0 0 100 100" className="w-full h-full">
+          <defs>
+            <linearGradient id="headphoneGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#2a2a2a" />
+              <stop offset="100%" stopColor="#4a4a4a" />
+            </linearGradient>
+          </defs>
+          <path d="M50,20 C30,20 20,35 20,55 L20,65 C20,68 22,70 25,70 L30,70 C33,70 35,68 35,65 L35,60 C35,57 33,55 30,55 L25,55 L25,55 C25,40 35,25 50,25 C65,25 75,40 75,55 L70,55 C67,55 65,57 65,60 L65,65 C65,68 67,70 70,70 L75,70 C78,70 80,68 80,65 L80,55 C80,35 70,20 50,20 Z" fill="url(#headphoneGradient)" />
+          <circle cx="30" cy="62.5" r="7.5" fill="#ff5e5e" />
+          <circle cx="70" cy="62.5" r="7.5" fill="#ff5e5e" />
+        </svg>
+      ),
+      side: (
+        <svg viewBox="0 0 100 100" className="w-full h-full">
+          <defs>
+            <linearGradient id="headphoneGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#2a2a2a" />
+              <stop offset="100%" stopColor="#4a4a4a" />
+            </linearGradient>
+          </defs>
+          <path d="M50,25 C35,25 25,35 25,50 L25,60 C25,63 27,65 30,65 L35,65 C38,65 40,63 40,60 L40,55 C40,52 38,50 35,50 L30,50 L30,50 C30,40 40,30 50,30 L50,30 L50,30 L50,30 L50,25 Z" fill="url(#headphoneGradient2)" />
+          <circle cx="35" cy="57.5" r="7.5" fill="#ff5e5e" />
+          <path d="M30,35 L70,35 C75,35 80,40 80,45 L80,65 C80,70 75,75 70,75 L65,75 L65,50 C65,45 60,40 55,40 L45,40 C40,40 35,45 35,50 L35,75 L30,75 C25,75 20,70 20,65 L20,45 C20,40 25,35 30,35 Z" fill="#333" opacity="0.5" />
+        </svg>
+      )
+    }
+  };
+  
+  // More realistic effects with actual visual differences
+  const effects = {
+    original: { filter: "none", transform: "scale(1)" },
+    enhance: { filter: "brightness(1.3) contrast(1.2) saturate(1.3)", transform: "scale(1)" },
+    dramatic: { filter: "contrast(1.5) saturate(1.8) hue-rotate(5deg)", transform: "scale(1)" },
+    studio: { filter: "brightness(1.15) contrast(1.1) saturate(0.85) sepia(0.15)", transform: "scale(1)" },
+    vintage: { filter: "sepia(0.35) contrast(1.1) brightness(0.9) hue-rotate(350deg)", transform: "scale(1)" },
+  };
+  
+  const backgrounds = {
+    studio: "linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%)",
+    gradient: "linear-gradient(135deg, #3a1c71 0%, #d76d77 50%, #ffaf7b 100%)",
+    minimal: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
+    none: "transparent"
+  };
+  
+  const [background, setBackground] = useState("studio");
   
   const handleEffectChange = (effect) => {
     if (processing) return;
@@ -1050,25 +1101,42 @@ const InstantStudioDemo = ({ colorClass }) => {
     setProcessing(true);
     setTimeout(() => {
       setBgRemoved(!bgRemoved);
+      setBackground(bgRemoved ? "studio" : "none");
       setProcessing(false);
     }, 600);
   };
   
-  const effects = {
-    original: { filter: "none", transform: "scale(1)" },
-    enhance: { filter: "brightness(1.2) contrast(1.1) saturate(1.2)", transform: "scale(1)" },
-    dramatic: { filter: "contrast(1.4) saturate(1.5) hue-rotate(5deg)", transform: "scale(1)" },
-    studio: { filter: "brightness(1.1) contrast(1.05) saturate(0.9)", transform: "scale(1)" },
-    zoom: { filter: "none", transform: "scale(1.1)" },
+  const toggleProductView = () => {
+    if (processing) return;
+    setProcessing(true);
+    setTimeout(() => {
+      setProductView(productView === "front" ? "side" : "front");
+      setProcessing(false);
+    }, 300);
   };
   
+  const changeBackground = (bg) => {
+    if (processing || bgRemoved) return;
+    setProcessing(true);
+    setTimeout(() => {
+      setBackground(bg);
+      setProcessing(false);
+    }, 300);
+  };
+  
+  // Checkerboard background pattern for transparency
+  const transparentBg = "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjNDI0MjQyIi8+PHJlY3QgeD0iMTAiIHk9IjEwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIGZpbGw9IiM0MjQyNDIiLz48cmVjdCB4PSIxMCIgeT0iMCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjMzUzNTM1Ii8+PHJlY3QgeD0iMCIgeT0iMTAiIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCIgZmlsbD0iIzM1MzUzNSIvPjwvc3ZnPg==')";
+  
   return (
-    <DemoCard title="Image Enhancer AI">
+    <DemoCard title="Image Enhancer Studio">
       <div className="p-4 flex flex-col h-full">
-        <div className="mb-4 flex justify-center">
-          <div className="relative w-40 h-40 overflow-hidden rounded-md border border-gray-700 flex items-center justify-center bg-gradient-to-br from-gray-700 to-gray-900">
+        <div className="mb-3 flex justify-center">
+          <div 
+            className="relative w-40 h-40 overflow-hidden rounded-md border border-gray-700 flex items-center justify-center"
+            style={{ background: bgRemoved ? transparentBg : backgrounds[background] }}
+          >
             {processing ? (
-              <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-70">
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-70 z-20">
                 <motion.div 
                   animate={{ rotate: 360 }}
                   transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
@@ -1077,42 +1145,77 @@ const InstantStudioDemo = ({ colorClass }) => {
               </div>
             ) : (
               <>
-                {!bgRemoved && (
-                  <div className="absolute inset-0 bg-gradient-to-br from-gray-600 to-gray-800" />
-                )}
+                {/* Product image with applied effect */}
                 <motion.div 
-                  animate={effects[currentEffect]}
-                  className="relative z-10 w-24 h-28 rounded-md"
+                  className="relative z-10 w-32 h-32 flex items-center justify-center"
                   style={{ 
-                    background: 'linear-gradient(135deg, #e6e6e6 0%, #d9d9d9 100%)',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.2)'
+                    filter: effects[currentEffect].filter,
+                    transform: effects[currentEffect].transform
                   }}
                 >
-                  <div className="absolute left-2 right-2 top-2 h-12 rounded bg-gray-300"></div>
-                  <div className="absolute left-2 right-2 bottom-6 h-6 rounded bg-gray-400"></div>
-                  <div className="absolute bottom-2 left-4 right-4 h-2 rounded bg-gray-500"></div>
+                  <div className="w-full h-full transition-opacity duration-300" style={{ opacity: bgRemoved ? 1 : 0.9 }}>
+                    {products.headphones[productView]}
+                  </div>
+                </motion.div>
+                
+                {/* Photo controls */}
+                <motion.div 
+                  className="absolute bottom-1 right-1 z-20 flex space-x-1"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <button 
+                    onClick={toggleProductView}
+                    className="bg-black bg-opacity-50 rounded-full p-1 hover:bg-opacity-70 transition-colors"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  </button>
                 </motion.div>
               </>
             )}
           </div>
         </div>
         
-        <div className="mb-4">
-          <label className="block text-xs text-gray-400 mb-2">Enhancement Style</label>
-          <div className="grid grid-cols-3 gap-2">
+        {/* Rest of component remains the same */}
+        {/* Effect controls */}
+        <div className="mb-3">
+          <label className="block text-xs text-gray-400 mb-1.5">Enhancement Style</label>
+          <div className="grid grid-cols-3 gap-1.5">
             {Object.keys(effects).map((effect) => (
               <Button 
                 key={effect}
                 variant={currentEffect === effect ? "primary" : "secondary"}
                 onClick={() => handleEffectChange(effect)}
                 disabled={processing}
-                className="py-1"
+                className="py-1 text-xs"
               >
                 {effect.charAt(0).toUpperCase() + effect.slice(1)}
               </Button>
             ))}
           </div>
         </div>
+        
+        {/* Background controls (only visible when bg not removed) */}
+        {!bgRemoved && (
+          <div className="mb-3">
+            <label className="block text-xs text-gray-400 mb-1.5">Background</label>
+            <div className="flex space-x-2">
+              {Object.keys(backgrounds).filter(bg => bg !== 'none').map((bg) => (
+                <button
+                  key={bg}
+                  onClick={() => changeBackground(bg)}
+                  disabled={processing}
+                  className={`w-8 h-8 rounded-full border-2 ${background === bg ? 'border-purple-500' : 'border-transparent'}`}
+                  style={{ background: backgrounds[bg] }}
+                ></button>
+              ))}
+            </div>
+          </div>
+        )}
         
         <div className="flex-1 flex flex-col justify-end">
           <Button
@@ -1133,7 +1236,14 @@ const InstantStudioDemo = ({ colorClass }) => {
             )}
           </Button>
           
-          <Button className="w-full">Export Enhanced Image</Button>
+          <Button className="w-full" variant="primary">
+            <span className="flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Export Image
+            </span>
+          </Button>
         </div>
       </div>
     </DemoCard>
@@ -1141,24 +1251,56 @@ const InstantStudioDemo = ({ colorClass }) => {
 };
 
 const TrendSpotDemo = ({ colorClass }) => {
-  const [chartData, setChartData] = useState([65, 70, 55, 60, 75, 68, 82, 75, 78, 88, 92]);
+  // More realistic product sales data with seasonal trends
+  const initialData = {
+    "Sales Volume": [42, 45, 40, 38, 45, 52, 60, 65, 58, 72, 85],
+    "Search Traffic": [55, 52, 48, 50, 62, 58, 65, 70, 78, 85, 92], 
+    "Competitor Prices": [68, 65, 67, 70, 72, 69, 65, 62, 58, 55, 50]
+  };
+  
+  const [chartData, setChartData] = useState(initialData["Sales Volume"]);
   const [selectedTrend, setSelectedTrend] = useState(0);
   const [analyzing, setAnalyzing] = useState(false);
+  const [insights, setInsights] = useState({
+    change: "+24%",
+    status: "Growing",
+    prediction: "Upward trend likely to continue",
+    recommendation: "Increase inventory by 15%"
+  });
+  
   const trends = ["Sales Volume", "Search Traffic", "Competitor Prices"];
+  
+  // Realistic insights based on trend data
+  const trendInsights = {
+    "Sales Volume": {
+      change: "+24%",
+      status: "Growing",
+      prediction: "Upward trend likely to continue",
+      recommendation: "Increase inventory by 15%"
+    },
+    "Search Traffic": {
+      change: "+32%",
+      status: "Accelerating",
+      prediction: "Seasonal peak approaching",
+      recommendation: "Invest in additional advertising"
+    },
+    "Competitor Prices": {
+      change: "-12%",
+      status: "Declining",
+      prediction: "Competitors offering discounts",
+      recommendation: "Consider strategic price matching"
+    }
+  };
   
   const handleTrendChange = (index) => {
     if (analyzing) return;
     
     setAnalyzing(true);
     setTimeout(() => {
+      const selectedTrendName = trends[index];
       setSelectedTrend(index);
-      // Generate new random data for the chart
-      const newData = Array.from({ length: 11 }, (_, i) => {
-        const baseValue = 50 + Math.random() * 45;
-        // Make the trend go upward toward the end
-        return Math.round(baseValue + (i / 10) * 20);
-      });
-      setChartData(newData);
+      setChartData(initialData[selectedTrendName]);
+      setInsights(trendInsights[selectedTrendName]);
       setAnalyzing(false);
     }, 800);
   };
@@ -1177,11 +1319,116 @@ const TrendSpotDemo = ({ colorClass }) => {
   
   const monthLabels = getMonthLabels();
   
+  // Generate unique IDs for SVG elements to avoid conflicts
+  const lineGradientId = `lineGradient-${selectedTrend}`;
+  const areaGradientId = `areaGradient-${selectedTrend}`;
+  
+  // Simple bar chart implementation
+  const renderBarChart = () => {
+    const maxValue = Math.max(...chartData);
+    const minValue = Math.min(...chartData);
+    
+    return (
+      <div className="w-full h-full flex items-end space-x-1 pt-5 pb-2">
+        {chartData.map((value, i) => {
+          const height = ((value - minValue) / (maxValue - minValue)) * 100;
+          const isGrowing = i > 0 && value > chartData[i-1];
+          const color = isGrowing ? "bg-green-500" : "bg-purple-500";
+          
+          return (
+            <div key={i} className="flex-1 flex flex-col items-center">
+              <div 
+                className={`w-full ${color} rounded-t transition-all duration-500 ease-out`} 
+                style={{ height: `${height}%` }}
+              ></div>
+              {i % 2 === 0 && (
+                <div className="text-[7px] text-gray-500 mt-1 truncate">
+                  {monthLabels[i]}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+  
+  // Line chart implementation
+  const renderLineChart = () => {
+    // Calculate normalized points
+    const points = chartData.map((value, index) => {
+      const x = (index / (chartData.length - 1)) * 100;
+      const y = ((Math.max(...chartData) - value) / (Math.max(...chartData) - Math.min(...chartData))) * 80;
+      return [x, y];
+    });
+    
+    // Generate SVG path
+    const linePath = `M${points.map(p => `${p[0]},${p[1]}`).join(' L')}`;
+    const areaPath = `${linePath} L100,100 L0,100 Z`;
+    
+    return (
+      <div className="w-full h-full relative">
+        {/* Month indicators */}
+        <div className="absolute left-0 right-0 bottom-0 flex justify-between px-1 text-[7px] text-gray-500">
+          {monthLabels.filter((_, i) => i % 2 === 0).map((month, i) => (
+            <div key={i} className="truncate">{month}</div>
+          ))}
+        </div>
+        
+        {/* Chart */}
+        <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id={lineGradientId} x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#8B5CF6" stopOpacity="1" />
+              <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0.1" />
+            </linearGradient>
+            <linearGradient id={areaGradientId} x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.3" />
+              <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          
+          {/* Area under the line */}
+          <path
+            d={areaPath}
+            fill={`url(#${areaGradientId})`}
+            opacity={analyzing ? 0.2 : 1}
+            className="transition-opacity duration-300"
+          />
+          
+          {/* The line itself */}
+          <path
+            d={linePath}
+            fill="none"
+            stroke={`url(#${lineGradientId})`}
+            strokeWidth="2"
+            strokeLinecap="round"
+            opacity={analyzing ? 0.2 : 1}
+            className="transition-opacity duration-300"
+          />
+          
+          {/* Data points */}
+          {points.map(([x, y], i) => (
+            <circle
+              key={i}
+              cx={x}
+              cy={y}
+              r="2.5"
+              fill="#8B5CF6"
+              opacity={analyzing ? 0.2 : 1}
+              className="transition-opacity duration-300"
+            />
+          ))}
+        </svg>
+      </div>
+    );
+  };
+  
   return (
     <DemoCard title="Market Trends AI">
       <div className="p-4 flex flex-col h-full">
         <div className="mb-3 flex justify-between items-center">
-          <div className="text-xs text-gray-400">Trend Analysis - {trends[selectedTrend]}</div>
+          <div className="text-xs font-medium text-gray-300">{trends[selectedTrend]} Analytics</div>
           
           {analyzing ? (
             <div className="text-xs text-purple-400 flex items-center">
@@ -1189,58 +1436,58 @@ const TrendSpotDemo = ({ colorClass }) => {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              Analyzing
+              Analyzing market data
             </div>
           ) : (
-            <div className="text-xs text-green-400 flex items-center">
-              <svg className="w-3 h-3 mr-1 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fillRule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clipRule="evenodd"></path>
+            <div className={`text-xs ${insights.change.startsWith('+') ? 'text-green-400' : 'text-red-400'} flex items-center font-medium`}>
+              <svg className={`w-3 h-3 mr-1 ${insights.change.startsWith('+') ? 'text-green-500' : 'text-red-500'}`} fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" d={insights.change.startsWith('+') 
+                  ? "M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
+                  : "M12 13a1 1 0 100 2h5a1 1 0 001-1v-5a1 1 0 10-2 0v2.586l-4.293-4.293a1 1 0 00-1.414 0L8 9.586l-4.293-4.293a1 1 0 00-1.414 1.414l5 5a1 1 0 001.414 0L11 9.414 14.586 13H12z"} 
+                  clipRule="evenodd"></path>
               </svg>
-              +24% growth 
+              {insights.change} in {trends[selectedTrend].toLowerCase()}
             </div>
           )}
         </div>
         
-        <div className="relative h-36 mb-3 flex items-end space-x-0.5">
-          {/* Chart grid lines */}
-          <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
-            {[0, 1, 2, 3, 4].map((_, i) => (
-              <div key={i} className="border-t border-gray-800 w-full h-0" />
-            ))}
+        {/* Insight pills */}
+        <div className="grid grid-cols-2 gap-2 mb-2">
+          <div className="bg-gray-800 bg-opacity-70 rounded-md p-1.5 border border-gray-700">
+            <div className="text-[9px] uppercase text-gray-500 tracking-wider">Status</div>
+            <div className="text-xs font-medium text-white">{insights.status}</div>
           </div>
-          
-          {/* Value axis labels */}
-          <div className="absolute left-0 top-0 bottom-0 w-5 flex flex-col justify-between items-end pr-1 text-[9px] text-gray-500">
-            <div>100</div>
-            <div>75</div>
-            <div>50</div>
-            <div>25</div>
-            <div>0</div>
-          </div>
-          
-          {/* Chart bars */}
-          <div className="ml-5 flex-1 flex items-end space-x-0.5">
-            {chartData.map((value, index) => (
-              <motion.div
-                key={index}
-                initial={{ height: 0 }}
-                animate={{ height: `${value}%` }}
-                transition={{ duration: 0.5, ease: "easeOut", delay: index * 0.05 }}
-                className={`flex-1 rounded-t ${
-                  analyzing ? "bg-gray-700" : "bg-gradient-to-t from-purple-900 to-purple-500"
-                }`}
-              />
-            ))}
+          <div className="bg-gray-800 bg-opacity-70 rounded-md p-1.5 border border-gray-700">
+            <div className="text-[9px] uppercase text-gray-500 tracking-wider">Prediction</div>
+            <div className="text-xs font-medium text-white truncate">{insights.prediction}</div>
           </div>
         </div>
         
-        {/* Month labels */}
-        <div className="flex justify-between px-5 mb-4 text-[9px] text-gray-500 overflow-hidden">
-          {monthLabels.map((month, i) => (
-            <div key={i}>{month}</div>
-          ))}
+        {/* Chart area - simplified and more reliable */}
+        <div className="relative h-32 mb-2 bg-gray-800 bg-opacity-30 rounded-md p-2 border border-gray-700">
+          {/* Grid lines */}
+          <div className="absolute inset-2 grid grid-rows-4 gap-y-6 pointer-events-none">
+            {[0, 1, 2, 3].map((_, i) => (
+              <div key={i} className="w-full border-t border-gray-700 opacity-40" />
+            ))}
+          </div>
+          
+          {/* Render the line chart */}
+          {renderLineChart()}
         </div>
         
+        {/* AI Recommendation */}
+        <div className="mb-3 bg-purple-900 bg-opacity-20 p-2 rounded-md border border-purple-800">
+          <div className="flex items-center mb-1">
+            <svg className="w-3 h-3 text-purple-400 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z" />
+            </svg>
+            <div className="text-[9px] uppercase text-purple-400 font-medium tracking-wider">AI Recommendation</div>
+          </div>
+          <div className="text-xs text-white">{insights.recommendation}</div>
+        </div>
+        
+        {/* Trend selector */}
         <div className="flex-1 flex flex-col justify-end">
           <div className="grid grid-cols-3 gap-2">
             {trends.map((trend, i) => (
@@ -1249,6 +1496,7 @@ const TrendSpotDemo = ({ colorClass }) => {
                 variant={selectedTrend === i ? "primary" : "secondary"}
                 onClick={() => handleTrendChange(i)}
                 disabled={analyzing}
+                className="text-xs py-1.5"
               >
                 {trend}
               </Button>
