@@ -23,7 +23,7 @@ const SUGGEST_PRICING = gql`
   mutation SuggestPricing($input: DynamicPricingInput!) {
     suggestPricing(input: $input) {
       id
-      productId
+      productIds
       analysisType
       content
       generatedAt
@@ -37,8 +37,6 @@ const SUGGEST_PRICING = gql`
       targetMargin
       marketDemand
       season
-      targetAudience
-      priceRange
     }
   }
 `;
@@ -76,7 +74,9 @@ const PricePilot = () => {
           targetMargin,
           season,
           marketDemand,
-          competitorPrices: null
+          competitorPrices: null,
+          //targetAudience: null,
+
         }
       }
     });
